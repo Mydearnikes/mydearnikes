@@ -77,7 +77,7 @@ const ShopByCategory = () => {
                 style={{ backgroundImage: `url('${category.image}')` }}
               >
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                <div className="shopText font-inter text-sm tracking-tight text-white mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300">
+                <div className="shopText font-inter text-sm tracking-tight text-white mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300 border-[0.125px] border-[#aeadad] bg-black  px-3 py-2 rounded-full">
                   {category.title}
                 </div>
               </Link>
