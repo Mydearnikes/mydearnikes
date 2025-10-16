@@ -1,13 +1,4 @@
-/*  NOTE:  THIS FILE DESCRIBE THE DATA COMING FROM THE SHOPIFY
-- Can group them into  sections 
-1. Core shopify types -> basic building block like ShopifyImage and ShopifyMoney -> almost every product, variant, collection will have em 
-2. Main Entities like -> Product Variant, Product, Collection -> these basically directly map to GraphQL Objects(products , Collection etc)
--> each time we fetch we convert the raw data into the json and this define the json data strucutre 
-3. API Response Wrapper -> These match the graphql response format -> returns data in edges and nodes
-4. Simplified type -> we can use them directly for the UI as they are flattened data and we dont have to deal with edges and node more than once.
-5. Cart & Utitlity Types -> shape of the cart although it doesnt directly comes from the shopify and we have to use zustand here btw for state management 
-6. GraphQL Variables Types -> types represent the variable passed to graphl query 
-*/
+
 // Core Shopify Types
 export interface ShopifyImage {
   id: string;
