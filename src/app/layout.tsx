@@ -1,7 +1,6 @@
-
 import type { Metadata, Viewport } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
-import localfont from "next/font/local"
+import localfont from "next/font/local";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -19,18 +18,15 @@ const inter = Inter({
   preload: true,
 });
 
-
-const ispire = localfont(
-  {
-    src:[
-      {
-        path:"../../public/fonts/OPTISpire.woff2",
-        weight:"400",
-      }
-    ], 
-    variable:"--font-ispire"
-  }
-)
+const ispire = localfont({
+  src: [
+    {
+      path: "../../public/fonts/OPTISpire.woff2",
+      weight: "400",
+    },
+  ],
+  variable: "--font-ispire",
+});
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -39,8 +35,6 @@ const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
   preload: true,
 });
-
-
 
 // Separate viewport export (Next.js 14+ requirement)
 export const viewport: Viewport = {
@@ -159,11 +153,7 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   icons: {
-    icon: [
-      { url: "/greenapplejuice.ico", sizes: "any" },
-      
-    ],
-   
+    icon: [{ url: "/greenapplejuice.ico", sizes: "any" }],
   },
 };
 
@@ -196,6 +186,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           crossOrigin="anonymous"
         />
 
+        <link
+          rel="preload"
+          as="image"
+          href="/images/bigBg.webp"
+          fetchPriority="high"
+        />
+
         {/* DNS prefetch for third-party services */}
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
@@ -223,7 +220,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="color-scheme" content="light dark" />
       </head>
 
-      <body className={`  ${inter.variable} ${bebasNeue.variable}   ${ispire.variable}`}>
+      <body
+        className={`  ${inter.variable} ${bebasNeue.variable}   ${ispire.variable}`}
+      >
         {/* Skip navigation for accessibility */}
         {/* <a
           href="#main-content"
@@ -246,11 +245,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </main>
 
           {/* Footer would go here */}
-          <Footer/>
+          <Footer />
         </div>
 
         {/* Global UI components */}
-        <Toaster position="top-right" expand={true}  closeButton />
+        <Toaster position="top-right" expand={true} closeButton />
 
         {/* TODO: Add CookieConsent component if GDPR compliance is needed */}
 

@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -86,12 +87,19 @@ const HeroSection = () => {
             className="w-full h-full"
             allowTouchMove={true}
           >
-            {mobileHeroSlides.map((slide) => (
+            {mobileHeroSlides.map((slide, index) => (
               <SwiperSlide key={slide.id}>
-                <div
-                  className="bg-cover bg-center h-full w-full"
-                  style={{ backgroundImage: `url('${slide.bgImage}')` }}
-                />
+                <div className="relative h-full w-full">
+                  <Image
+                    src={slide.bgImage}
+                    alt={`Hero slide ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    quality={85}
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -99,7 +107,7 @@ const HeroSection = () => {
 
         <div className="absolute inset-0 z-20 flex justify-center items-center pointer-events-none">
           <div className="buttonBox flex flex-col h-[80vh] justify-end items-center pt-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -109,7 +117,7 @@ const HeroSection = () => {
             </motion.div>
 
             <Link href="/category/all-products" className="pointer-events-auto">
-              <motion.button 
+              <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -145,7 +153,7 @@ const HeroSection = () => {
       {/* DESKTOP VERSION */}
       <div className="hidden lg:flex gap-[8px] pt-15">
         {/* Left Side - Main Hero Image */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -163,12 +171,19 @@ const HeroSection = () => {
               className="w-full h-full"
               allowTouchMove={false}
             >
-              {heroSlides.map((slide) => (
+              {heroSlides.map((slide, index) => (
                 <SwiperSlide key={slide.id}>
-                  <div
-                    className="w-full h-full bg-cover bg-center border-[0.125px] border-[#000000]"
-                    style={{ backgroundImage: `url('${slide.bgImage}')` }}
-                  />
+                  <div className="relative w-full h-full border-[0.125px] border-[#000000]">
+                    <Image
+                      src={slide.bgImage}
+                      alt={`Hero background ${index + 1}`}
+                      fill
+                      priority={index === 0}
+                      quality={85}
+                      sizes="60vw"
+                      className="object-cover"
+                    />
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -194,25 +209,31 @@ const HeroSection = () => {
         </motion.div>
 
         {/* Right Side - Product Preview + Content */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           className="w-[40vw] h-[94vh] px-[8px] mt-4"
         >
           <Link href={currentSlide.productLink}>
-            <motion.div 
+            <motion.div
               key={activeIndex}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
               className="h-[65vh] border-[0.125px] border-[#000000] relative overflow-hidden cursor-pointer group"
             >
-              <div
-                className="w-full h-full bg-cover bg-center absolute inset-0 transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: `url('${currentSlide.productImage}')` }}
-              />
-              
+              <div className="relative w-full h-full">
+                <Image
+                  src={currentSlide.productImage}
+                  alt={currentSlide.productName}
+                  fill
+                  quality={85}
+                  sizes="40vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+
               <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t-[0.125px] border-[#000000] px-[8px] py-1 flex justify-between items-center">
                 <div className="font-normal text-black text-base uppercase">
                   {currentSlide.productName}
@@ -226,7 +247,7 @@ const HeroSection = () => {
 
           <div className="h-[30vh] pt-2 flex flex-col justify-end">
             <div className="headingAndCta flex justify-between items-end">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
@@ -237,7 +258,7 @@ const HeroSection = () => {
               </motion.div>
               <div className="cta mb-2">
                 <Link href="/category/all-products">
-                  <motion.button 
+                  <motion.button
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
