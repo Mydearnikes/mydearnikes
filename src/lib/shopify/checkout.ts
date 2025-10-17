@@ -2,7 +2,8 @@
 
 import { CartItem } from "@/store/cartStore";
 
-const SHOPIFY_STOREFRONT_URL = `https://mydearnikes.myshopify.com/api/2024-07/graphql.json`;
+// const SHOPIFY_STOREFRONT_URL = `https://mydearnikes.myshopify.com/api/2024-07/graphql.json`;
+const SHOPIFY_STOREFRONT_URL = process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL!;
 const STOREFRONT_ACCESS_TOKEN =
   process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
