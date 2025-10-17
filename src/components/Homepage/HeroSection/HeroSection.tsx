@@ -157,7 +157,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-[60vw] h-[94vh] relative mt-4 mx-[8px]"
+          className="w-[60vw] h-[91vh] relative mt-4 mx-[8px]"
         >
           <div className="w-full h-full relative">
             <Swiper
@@ -245,7 +245,7 @@ const HeroSection = () => {
             </motion.div>
           </Link>
 
-          <div className="h-[30vh] pt-2 flex flex-col justify-end">
+          <div className="h-[27vh]  flex flex-col justify-end">
             <div className="headingAndCta flex justify-between items-end">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
