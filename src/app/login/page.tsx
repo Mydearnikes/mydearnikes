@@ -13,19 +13,19 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 
 const carouselImages = [
   {
-    src: "/images/login2.jpg",
+    src: "/images/login.webp",
     alt: "Premium Sneakers Collection",
     // heading: "Serve Looks, Not Apologies",
     // description: "Log in to cop the latest heat and continue serving looks that hit different.",
   },
   {
-    src: "/images/login3.png",
+    src: "/images/login2.webp",
     alt: "Streetwear Fashion",
     // heading: "Built Different",
     // description: "Access exclusive drops, track your orders, and shop the collection that never misses.",
   },
   {
-    src: "/images/loginscreen.jpg",
+    src: "/images/login3.webp",
     alt: "Nike Style",
     // heading: "Your Drip Awaits",
     // description: "Sign in to unlock exclusive drops and keep your fits fresh.",
