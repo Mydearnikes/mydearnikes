@@ -86,60 +86,10 @@ export default function AccountPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Account Info Card */}
-          {/* <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow">
-            <h2 className="text-sm font-semibold  text-gray-900 mb-4 flex items-center font-inter tracking-tight">
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              Account Info
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-semibold text-gray-500 uppercase mb-1 font-inter tracking-tight">
-                  Contact
-                </h3>
-                <p className="text-gray-900 text-xs">{customer.email}</p>
-                {customer.phone && (
-                  <p className="text-gray-600">{customer.phone}</p>
-                )}
-              </div>
-            </div>
-          </div> */}
-
           {/* Default Address Card */}
           {customer.defaultAddress && (
             <div className="   ">
               <h2 className="text-sm font-semibold  text-gray-900 mb-2 flex items-center font-inter tracking-tight ">
-                {/* <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg> */}
                 Default Address
               </h2>
               <div className="text-gray-900 text-xs ">
@@ -169,7 +119,7 @@ export default function AccountPage() {
         </div>
 
         {/* Orders Section */}
-        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8 border border-gray-100">
+        <div className="">
           <h2 className="text-sm font-semibold text-gray-900 mb-6 flex items-center font-inter tracking-tight ">
             <svg
               className="w-6 h-6 mr-2"
@@ -188,120 +138,107 @@ export default function AccountPage() {
           </h2>
 
           {customer.orders.edges.length > 0 ? (
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {customer.orders.edges.slice(0, 10).map(({ node: order }) => {
                 const isCancelledOrClosed =
                   order.canceledAt || order.cancelledAt || order.closed;
 
+                const handleTrackOrder = () => {
+                  const message = `Hi, I would like to track my order #${order.orderNumber}`;
+                  const whatsappUrl = `https://wa.me/919166668224?text=${encodeURIComponent(message)}`;
+                  window.open(whatsappUrl, '_blank');
+                };
+
                 return (
                   <div
                     key={order.id}
-                    className="border border-gray-200 rounded-lg p-4 sm:p-2 hover:border-gray-300 transition-all hover:shadow-sm"
+                    className="border border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-all hover:shadow-md bg-white group"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <p className="text-sm font-bold text-gray-900">
-                            Order #{order.orderNumber}
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            <span
-                              className={`text-xs px-2.5 py-1 rounded-full font-medium ${getOrderStatusColor(
-                                order.fulfillmentStatus
-                              )}`}
-                            >
-                              {order.fulfillmentStatus || "Processing"}
-                            </span>
-                            <span
-                              className={`text-xs px-2.5 py-1 rounded-full font-medium ${getFinancialStatusColor(
-                                order.financialStatus
-                              )}`}
-                            >
-                              {order.financialStatus}
-                            </span>
-                            {isCancelledOrClosed && (
-                              <span className="text-xs px-2.5 py-1 rounded-full bg-red-100 text-red-800 font-medium">
-                                {order.closed ? "Archived" : "Cancelled"}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                          {new Date(order.processedAt).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
-                        </p>
-                      </div>
-                      <div className="text-left sm:text-right">
-                        <p className="text-md font-medium text-gray-900">
-                          ₹{parseFloat(order.totalPrice.amount).toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Product Images */}
-                    <div className="flex gap-3 mb-4 overflow-x-auto pb-2">
-                      {order.lineItems.edges
-                        .slice(0, 4)
-                        .map(({ node: item }, index) => (
-                          <div
-                            key={`${order.id}-${item.title}-${index}`}
-                            className="flex-shrink-0"
+                    {/* Product Image - Full width at top */}
+                    <div className="relative w-full aspect-square bg-gray-50">
+                      {order.lineItems.edges[0]?.node.variant.image ? (
+                        <Image
+                          src={order.lineItems.edges[0].node.variant.image.url}
+                          alt={order.lineItems.edges[0].node.variant.image.altText || order.lineItems.edges[0].node.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 768px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <svg
+                            className="w-16 h-16 text-gray-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
                           >
-                            {item.variant.image ? (
-                              <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-gray-200">
-                                <Image
-                                  src={item.variant.image.url}
-                                  alt={item.variant.image.altText || item.title}
-                                  fill
-                                  className="object-cover"
-                                  sizes="80px"
-                                />
-                              </div>
-                            ) : (
-                              <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                                <svg
-                                  className="w-8 h-8 text-gray-400"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                  />
-                                </svg>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      {order.lineItems.edges.length > 4 && (
-                        <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-sm font-medium text-gray-600">
-                            +{order.lineItems.edges.length - 4}
-                          </span>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                      {order.lineItems.edges.length > 1 && (
+                        <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">
+                          +{order.lineItems.edges.length - 1}
                         </div>
                       )}
                     </div>
 
-                    {/* Show cancelled/archived status */}
-                    {isCancelledOrClosed && (
-                      <p className="text-sm text-gray-500">
-                        {order.closed ? "Archived" : "Cancelled"} on{" "}
-                        {new Date(
-                          order.canceledAt ||
-                            order.cancelledAt ||
-                            order.processedAt
-                        ).toLocaleDateString()}
+                    {/* Order Details */}
+                    <div className="p-4">
+                      <p className="text-xs font-semibold text-gray-900 mb-2">
+                        Order #{order.orderNumber}
                       </p>
-                    )}
+                      
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        <span
+                          className={`text-xs px-2 py-0.5 rounded-full font-medium ${getOrderStatusColor(
+                            order.fulfillmentStatus
+                          )}`}
+                        >
+                          {order.fulfillmentStatus || "Processing"}
+                        </span>
+                        {isCancelledOrClosed && (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-800 font-medium">
+                            {order.closed ? "Archived" : "Cancelled"}
+                          </span>
+                        )}
+                      </div>
+
+                      <p className="text-xs text-gray-500 mb-3">
+                        {new Date(order.processedAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )}
+                      </p>
+
+                      {/* Order Total */}
+                      <div className="pt-1 border-t border-gray-100 mb-3">
+                        <p className="text-sm font-bold text-gray-900">
+                          ₹{parseFloat(order.totalPrice.amount).toFixed(2)}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          {order.lineItems.edges.length} {order.lineItems.edges.length === 1 ? 'item' : 'items'}
+                        </p>
+                      </div>
+
+                      {/* Track Order Button */}
+                      <Button
+                        onClick={handleTrackOrder}
+                        className="w-full  text-white text-xs font-medium py-2 px-3 rounded-none transition-colors flex items-center justify-center gap-2"
+                      >
+                    
+                        Track Order
+                      </Button>
+                    </div>
                   </div>
                 );
               })}
@@ -337,9 +274,8 @@ export default function AccountPage() {
         {/* Logout Button */}
         <div className="mt-8 flex justify-center pb-8">
           <Button
-          variant={"default"}
+            variant={"default"}
             onClick={handleLogout}
-            // className="px-8 py-3 border-2 border-red-600 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-medium"
           >
             Logout
           </Button>
