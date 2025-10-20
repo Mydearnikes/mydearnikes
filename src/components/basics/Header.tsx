@@ -24,6 +24,11 @@ const Header = () => {
   const toggle = () => setActive((prev) => (prev ? null : "tees"));
   const closeMenu = () => setActive(null);
 
+  const handleLogoClick = () => {
+    closeMenu(); // Close the menu
+    router.push("/"); // Navigate to home
+  };
+
   const handleNavigation = (key: string) => {
     if (key === "all") {
       setActive(null);
@@ -80,7 +85,7 @@ const Header = () => {
 
           <div
             className="logo font-ispire text-3xl cursor-pointer"
-            onClick={() => router.push("/")}
+            onClick={handleLogoClick}
           >
             MYDEARNIKES
           </div>

@@ -81,7 +81,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     },
     { name: "Baby Tees", href: "/category/baby-tees", slug: "baby-tees" },
     { name: "Hoodies & Sweats", href: "/category/hoodies", slug: "hoodies" },
-    { name: "Sweatpants", href: "/category/sweatpants", slug: "sweatpants" },
+    // { name: "Sweatpants", href: "/category/sweatpants", slug: "sweatpants" },
 
   ];
 
