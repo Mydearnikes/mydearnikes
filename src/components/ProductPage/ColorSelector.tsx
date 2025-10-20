@@ -1,4 +1,3 @@
-
 "use client";
 import { ChevronDown } from "lucide-react";
 import React from "react";
@@ -56,41 +55,52 @@ const ColorSelector = ({
 
   const colors = extractColors();
   const hasRealColors = colors.length > 1 || colors[0] !== "Default";
+  const isSingleColor = colors.length === 1;
 
   return (
     <div className="mt-4 px-[8px] flex items-center gap-3">
       <label htmlFor="color-select" className="text-xs">
-        Colors
+        Color
       </label>
       <div className="selector relative inline-block">
-        <select
-          name="colorSelect"
-          id="color-select"
-          value={selectedColor}
-          onChange={(e) => onColorChange(e.target.value)}
-          className="text-xs border-[0.25px] border-[#e5e5e5] border-opacity-25 w-50 p-[8px] focus:outline-0 appearance-none rounded-md relative"
-          disabled={!hasRealColors} // Disable if only default color
-        >
-          {hasRealColors ? (
-            <>
-              <option value="">Select Color</option>
-              {colors.map((color, idx) => (
-                <option key={idx} value={color}>
-                  {color}
-                </option>
-              ))}
-            </>
-          ) : (
-            <option value="Default">Default</option>
-          )}
-        </select>
-        {/* Dropdown arrow icon */}
-        <ChevronDown
-          className={`absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 ${
-            !hasRealColors ? 'opacity-50' : ''
-          }`}
-          size={12}
-        />
+        {isSingleColor ? (
+          // Show as plain text if only one color with subtle visual indicator
+          <div className="text-xs border-[0.25px] border-[#e5e5e5] border-opacity-25 w-50 p-[8px] rounded-md bg-gray-100 text-gray-600 cursor-not-allowed flex items-center justify-between gap-2">
+            <span>{colors[0]}</span>
+            {/* <span className="text-[10px] text-gray-400 italic">(Only option)</span> */}
+          </div>
+        ) : (
+          <>
+            <select
+              name="colorSelect"
+              id="color-select"
+              value={selectedColor}
+              onChange={(e) => onColorChange(e.target.value)}
+              className="text-xs border-[0.25px] border-[#e5e5e5] border-opacity-25 w-50 p-[8px] focus:outline-0 appearance-none rounded-md relative cursor-pointer hover:border-gray-300 transition-colors"
+              disabled={!hasRealColors}
+            >
+              {hasRealColors ? (
+                <>
+                  <option value="">Select Color</option>
+                  {colors.map((color, idx) => (
+                    <option key={idx} value={color}>
+                      {color}
+                    </option>
+                  ))}
+                </>
+              ) : (
+                <option value="Default">Default</option>
+              )}
+            </select>
+            {/* Dropdown arrow icon */}
+            <ChevronDown
+              className={`absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 ${
+                !hasRealColors ? 'opacity-50' : ''
+              }`}
+              size={12}
+            />
+          </>
+        )}
       </div>
     </div>
   );

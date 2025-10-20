@@ -59,7 +59,7 @@ const Header = () => {
     { key: "newin", label: "New In" },
     { key: "tees", label: "Tees" },
     { key: "hoodies", label: "Hoodies & Sweats" },
-    { key: "sweatpants", label: "Sweatpants" },
+    // { key: "sweatpants", label: "Sweatpants" },
     { key: "search", label: "Search" },
   ];
 

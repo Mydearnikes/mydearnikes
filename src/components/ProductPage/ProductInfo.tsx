@@ -32,7 +32,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       parseFloat(product.price.amount);
   return (
     <>
-      <div className="flex justify-between items-center px-[8px] py-1 mt-3">
+      <div className="flex justify-between items-center px-[8px] py-1 mt-0">
         <div className=" productName  uppercase font-bold   text-md tracking-tight">
           {product.title}
         </div>
@@ -45,14 +45,14 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           )}
         </div>
       </div>
-      <div className="description text-[12px]  px-[8px]  py-1 lg:hidden">
+      <div className="description text-[12px]  px-[8px]  py-1 lg:hidden hidden">
         {extractDescription(product.description || "").map((feature, index) => (
           <p key={index}>{feature}</p>
         ))}
 
       </div>
-      <div className="description text-[12px]   px-[8px]  py-1 hidden lg:block">
-       {product.description}
+      <div className="description text-[12px]   px-[8px]   hidden lg:block">
+       {/* {product.description} */}
 
       </div>
     </>

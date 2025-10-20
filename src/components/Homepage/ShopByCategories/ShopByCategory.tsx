@@ -31,11 +31,11 @@ const ShopByCategory = () => {
       image: "/images/hoodieCover.webp",
       title: "Hoodies"
     },
-    {
-      href: "/category/sweatpants",
-      image: "/images/sweats.webp",
-      title: "Sweatpants"
-    },
+    // {
+    //   href: "/category/sweatpants",
+    //   image: "/images/sweats.webp",
+    //   title: "Sweatpants"
+    // },
     {
       href: "/category/all-products",
       image: "/images/allCover.webp",
