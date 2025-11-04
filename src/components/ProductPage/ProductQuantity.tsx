@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { trackAddToCart } from "@/lib/analytics";
 
 interface ProductQuantityProps {
   product: SimpleProduct;
@@ -64,6 +65,10 @@ const ProductQuantity = ({ product, selectedVariant, quantity, setQuantity }: Pr
       // toast.success(`${product.title} added to cart!`, {
       //   description: `Quantity: ${quantity}`,
       // });
+
+
+      trackAddToCart(product, selectedVariant, quantity);
+
       toast.success("Product Added To Cart")
     } catch (error) {
       console.error('Add to cart error:', error);

@@ -3,15 +3,25 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { trackSearch } from "@/lib/analytics";  
 
 interface SearchBarProps {
   query: string;
   setQuery: (query: string) => void;
   recents: string[];
   addRecent: (term: string) => void;
+  resultCount?: number;  // 🎯 Add this optional prop to track result count
 }
 
-const SearchBar = ({ query, setQuery, recents, addRecent }: SearchBarProps) => {
+const SearchBar = ({ query, setQuery, recents, addRecent, resultCount }: SearchBarProps) => {
+  // 🎯 Handle search tracking
+  const handleSearch = (searchTerm: string) => {
+    if (searchTerm.trim()) {
+      addRecent(searchTerm.trim());
+      trackSearch(searchTerm.trim(), resultCount);  // Track the search
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -30,12 +40,12 @@ const SearchBar = ({ query, setQuery, recents, addRecent }: SearchBarProps) => {
         onChange={(e) => setQuery(e.target.value)}
         className="w-full py-2 focus:outline-none"
         onKeyDown={(e) => {
-          if (e.key === "Enter" && query.trim()) {
-            addRecent(query.trim());
+          if (e.key === "Enter") {
+            handleSearch(query);  
           }
         }}
         whileFocus={{
-          scale: 1, // Reduced from 1.02 to be less disruptive
+          scale: 1,
           transition: { duration: 0.2 }
         }}
       />
@@ -64,7 +74,7 @@ const SearchBar = ({ query, setQuery, recents, addRecent }: SearchBarProps) => {
                 variant={"outline"}
                 onClick={() => {
                   setQuery(recent);
-                  addRecent(recent);
+                  handleSearch(recent);  //  Track when clicking recent search
                 }}
                 className="rounded-full border-[0.5px] px-3 border-[#aeadad]"
               >

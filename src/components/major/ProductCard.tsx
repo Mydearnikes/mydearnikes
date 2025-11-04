@@ -3,12 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SimpleProduct } from "@/types/shopify";
+import { trackProductClick } from "@/lib/analytics";
 
 interface ProductCardProps {
   product: SimpleProduct;
+  listName?:string;
+  position?:number;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, listName="Product Grid", position= 0 }: ProductCardProps) {
   // Get main product image
   const mainImage = product.featuredImage || product.images[0];
 
@@ -26,9 +29,14 @@ export default function ProductCard({ product }: ProductCardProps) {
     product.price.currencyCode
   );
 
+   const handleClick = () => {
+    trackProductClick(product, listName, position);
+  };
+
   return (
     <Link
       href={`/product/${product.handle}`}
+      onClick={handleClick}
       className="border-b-[0.25px] border-r-[0.25px] border-gray-400 flex flex-col group relative"
     >
       <div className="relative aspect-square bg-gray-100 overflow-hidden group-hover:bg-gray-200 transition-colors duration-200">

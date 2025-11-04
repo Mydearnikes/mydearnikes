@@ -20,6 +20,7 @@ import {
 } from "@/lib/shopify/recentlyViewed";
 import RecentlyViewedCarousel from "@/components/ProductPage/RecentlyViewedCarousel";
 import PaymentMethods from "@/components/ProductPage/PaymentMethods";
+import { trackProductView } from "@/lib/analytics";
 
 interface ProductPageProps {
   params: Promise<{
@@ -205,10 +206,12 @@ export default function ProductPage({ params }: ProductPageProps) {
         }
 
         setProduct(productData);
+        let firstVariant = null;
         
         // Auto select the first available variant
         if (productData.variants && productData.variants.length > 0) {
           const variant = productData.variants[0];
+          firstVariant= variant;
           setSelectedVariant(variant);
 
           const sizeOption = variant.selectedOptions?.find((opt) =>
@@ -221,6 +224,8 @@ export default function ProductPage({ params }: ProductPageProps) {
           if (sizeOption) setSelectedSize(sizeOption.value);
           if (colorOption) setSelectedColor(colorOption.value);
         }
+
+        trackProductView(productData, firstVariant);
       } catch (error) {
         console.error("Error loading product:", error);
         notFound();

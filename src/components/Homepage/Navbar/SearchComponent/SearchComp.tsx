@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -30,47 +28,47 @@ const SearchComponent = ({ onClose }: SearchComponentProps) => {
 
   // Animation variants with proper typing
   const containerVariants: Variants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
-      scale: 0.98
+      scale: 0.98,
     },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
         duration: 0.4,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
     },
     exit: {
       opacity: 0,
       scale: 0.98,
       transition: {
         duration: 0.3,
-        ease: "easeIn"
-      }
-    }
+        ease: "easeIn",
+      },
+    },
   };
 
   const searchBarVariants: Variants = {
-    hidden: { 
-      opacity: 0, 
-      y: -30 
+    hidden: {
+      opacity: 0,
+      y: -30,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
   };
 
   const carouselVariants: Variants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
-      y: 30
+      y: 30,
     },
     visible: {
       opacity: 1,
@@ -78,9 +76,9 @@ const SearchComponent = ({ onClose }: SearchComponentProps) => {
       transition: {
         duration: 0.5,
         delay: 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
   };
 
   const loadingVariants: Variants = {
@@ -88,15 +86,15 @@ const SearchComponent = ({ onClose }: SearchComponentProps) => {
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.3
-      }
+        duration: 0.3,
+      },
     },
     exit: {
       opacity: 0,
       transition: {
-        duration: 0.2
-      }
-    }
+        duration: 0.2,
+      },
+    },
   };
 
   // Load latest products on mount if no recents
@@ -178,9 +176,10 @@ const SearchComponent = ({ onClose }: SearchComponentProps) => {
             setQuery={handleQueryChange}
             recents={recents}
             addRecent={addRecent}
+            resultCount={products.length}
           />
         </motion.div>
-        
+
         <AnimatePresence mode="wait">
           {loading ? (
             <motion.div
@@ -200,8 +199,8 @@ const SearchComponent = ({ onClose }: SearchComponentProps) => {
               initial="hidden"
               animate="visible"
             >
-              <NavCarousel 
-                products={products} 
+              <NavCarousel
+                products={products}
                 loading={loading}
                 showRecents={!query && recents.length > 0}
                 onProductClick={handleProductClick}

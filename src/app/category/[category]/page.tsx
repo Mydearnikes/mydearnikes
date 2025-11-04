@@ -9,6 +9,7 @@ import {
   getCollectionInfo,
   getProductsByCollection,
 } from "@/lib/shopify/client";
+import { trackCategoryView } from "@/lib/analytics";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -26,7 +27,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>("");
-  
+
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -46,6 +47,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
         setProducts(productsData);
         setCollection(collectionData);
+        if (collectionData) {
+          trackCategoryView(collectionData.title, productsData.length);
+        }
       } catch (err) {
         console.error("Error loading category", err);
         setError(true);
@@ -82,7 +86,6 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     { name: "Baby Tees", href: "/category/baby-tees", slug: "baby-tees" },
     { name: "Hoodies & Sweats", href: "/category/hoodies", slug: "hoodies" },
     // { name: "Sweatpants", href: "/category/sweatpants", slug: "sweatpants" },
-
   ];
 
   // Move active category to first position
@@ -172,23 +175,25 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="pt-16">
       {/* Category Header */}
-      <motion.div 
+      <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6 }}
         className="headingClass px-[8px] tracking-tight flex flex-col items-center justify-center gap-0 py-8"
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+          animate={
+            inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
+          }
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex justify-center items-center font-bebas text-[64px] md:text-[96px] font-semibold leading-none"
         >
           {collection?.title || category.replace("-", " ")}
         </motion.div>
-        
-        <motion.p 
+
+        <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -198,7 +203,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         </motion.p>
 
         {/* Category Navigation Menu with Sort */}
-        <motion.nav 
+        <motion.nav
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -215,7 +220,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               }`}
               style={{ outline: "none" }}
             >
-              <option value="" disabled>Filter</option>
+              <option value="" disabled>
+                Filter
+              </option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
               {selectedSort && <option value="">Clear Filter</option>}
@@ -238,17 +245,19 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               </svg>
             </div>
           </div>
-          
+
           {categories.map((cat, index) => {
             const isActive = cat.slug === category;
             return (
               <motion.div
                 key={cat.href}
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: inView ? 0.5 + (index * 0.05) : 0 
+                animate={
+                  inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
+                }
+                transition={{
+                  duration: 0.4,
+                  delay: inView ? 0.5 + index * 0.05 : 0,
                 }}
               >
                 <Link

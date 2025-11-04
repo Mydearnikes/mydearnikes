@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, Minus, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cartStore";
 import { createCartWithItems } from "@/lib/shopify/checkout";
-
+import { trackViewCart, trackRemoveFromCart, trackBeginCheckout } from "@/lib/analytics";
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -21,6 +21,11 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
     getTotalPrice,
     clearCart,
   } = useCartStore();
+  useEffect(() => {
+  if (isOpen && items.length > 0) {
+    trackViewCart(items, getTotalPrice());
+  }
+}, [isOpen, items, getTotalPrice]);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
 
@@ -39,6 +44,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
     try {
       setCheckoutLoading(true);
+      trackBeginCheckout(items, getTotalPrice());
 
       console.log("Creating Shopify cart with items:", items);
 

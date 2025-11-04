@@ -88,7 +88,7 @@ export default function ProductGrid({
               ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
             }}
           >
-            <ProductCard product={product} />
+            <ProductCard product={product} listName={title} position={index} />
           </motion.div>
         ))}
       </div>
