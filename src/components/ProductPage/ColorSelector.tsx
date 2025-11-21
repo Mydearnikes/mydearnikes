@@ -65,7 +65,7 @@ const ColorSelector = ({
       <div className="selector relative inline-block">
         {isSingleColor ? (
           // Show as plain text if only one color with subtle visual indicator
-          <div className="text-xs border-[0.25px] border-[#e5e5e5] border-opacity-25 w-50 p-[8px] rounded-md bg-gray-100 text-gray-600 cursor-not-allowed flex items-center justify-between gap-2">
+          <div className="text-xs border-[0.25px] border-[#e5e5e5] border-opacity-25 w-50 p-[8px] rounded-md bg-gray-100 text-gray-600 cursor-default flex items-center justify-between gap-2">
             <span>{colors[0]}</span>
             {/* <span className="text-[10px] text-gray-400 italic">(Only option)</span> */}
           </div>

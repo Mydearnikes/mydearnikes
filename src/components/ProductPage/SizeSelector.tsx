@@ -1,22 +1,26 @@
+
 "use client";
 
 import { useState } from "react";
 import { Button } from "../ui/button";
-import {  X } from "lucide-react";
+import { X } from "lucide-react";
 import { SimpleProduct, ProductVariant } from "@/types/shopify";
 import { getSizeChartByProductType } from "@/lib/sizeCharts";
 import Image from "next/image";
 import measuringTapeIcon from "/public/images/measuring.png";
+
 interface SizeSelectorProps {
   product: SimpleProduct;
   selectedSize: string;
   onSizeChange: (size: string) => void;
+  showStockInfo?: boolean;
 }
 
 const SizeSelector = ({
   product,
   selectedSize,
   onSizeChange,
+  showStockInfo = true,
 }: SizeSelectorProps) => {
   const [showSizeChart, setShowSizeChart] = useState(false);
 
@@ -24,11 +28,19 @@ const SizeSelector = ({
   const extractSizes = () => {
     // Fallback to default sizes if no variants
     if (!product.variants || product.variants.length === 0) {
-      return { sizes: ["XS", "S", "M", "L", "XL", "XXL"], availability: {} };
+      return {
+        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        availability: {},
+        stockLevels: {},
+      };
     }
 
     const sizeData: {
-      [key: string]: { available: boolean; variant: ProductVariant };
+      [key: string]: {
+        available: boolean;
+        variant: ProductVariant;
+        stock: number;
+      };
     } = {};
 
     // Process each variant to extract size options
@@ -40,11 +52,16 @@ const SizeSelector = ({
       if (sizeOption) {
         const size = sizeOption.value;
         if (!sizeData[size]) {
-          sizeData[size] = { available: false, variant };
+          sizeData[size] = {
+            available: false,
+            variant,
+            stock: 0,
+          };
         }
         // Mark as available if any variant with this size is in stock
         if (variant.availableForSale) {
           sizeData[size].available = true;
+          sizeData[size].stock = variant.quantityAvailable || 0;
         }
       }
     });
@@ -53,13 +70,20 @@ const SizeSelector = ({
     const availability = Object.fromEntries(
       Object.entries(sizeData).map(([size, data]) => [size, data.available])
     );
+    const stockLevels = Object.fromEntries(
+      Object.entries(sizeData).map(([size, data]) => [size, data.stock])
+    );
 
     return sizes.length > 0
-      ? { sizes, availability }
-      : { sizes: ["XS", "S", "M", "L", "XL", "XXL"], availability: {} };
+      ? { sizes, availability, stockLevels }
+      : {
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          availability: {},
+          stockLevels: {},
+        };
   };
 
-  const { sizes, availability } = extractSizes();
+  const { sizes, availability, stockLevels } = extractSizes();
   const sizeChart = getSizeChartByProductType(product.productType);
 
   const handleSizeClick = (size: string) => {
@@ -67,6 +91,13 @@ const SizeSelector = ({
     if (availability[size] === false) return;
     onSizeChange(size);
   };
+
+  // Get stock count for selected size
+  const selectedSizeStock = selectedSize ? stockLevels[selectedSize] : null;
+  const showLowStock =
+    selectedSizeStock !== null &&
+    selectedSizeStock > 0 &&
+    selectedSizeStock <= 5;
 
   return (
     <>
@@ -87,7 +118,7 @@ const SizeSelector = ({
                       ? "bg-black text-white"
                       : isAvailable
                       ? "bg-white text-black border-[0.25px] border-[#aeadad] border-opacity-25 hover:border-gray-400"
-                      : "bg-gray-100 text-gray-400 border-[0.25px] border-gray-300 cursor-not-allowed"
+                      : "bg-gray-100 text-gray-400 border-[0.25px] border-gray-300 cursor-default"
                   }`}
                   onClick={() => handleSizeClick(size)}
                   disabled={!isAvailable}
@@ -104,16 +135,25 @@ const SizeSelector = ({
           className="sizeChart text-xs mt-2  hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
           aria-label="Open size chart"
         >
-          {/* <RulerDimensionLine size={18} strokeWidth={1} />  */}
           <Image
             src={measuringTapeIcon}
             alt="Size Guide"
             width={24}
             height={24}
-            className="text-black" // Optional: if you want to apply color
+            className="text-black"
           />
         </button>
       </div>
+
+      {/* Stock Information Display */}
+      {showStockInfo && selectedSize && showLowStock && (
+        <div className="px-[8px] mt-3">
+          <p className="text-xs text-orange-600 font-medium">
+            ⚠️ Only {selectedSizeStock}{" "}
+            {selectedSizeStock === 1 ? "item" : "items"} left in stock!
+          </p>
+        </div>
+      )}
 
       {/* Size Chart Modal */}
       {showSizeChart && (

@@ -338,6 +338,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   product={product}
                   selectedSize={selectedSize}
                   onSizeChange={setSelectedSize}
+                  showStockInfo={true}
                 />
               </motion.div>
               
