@@ -8,7 +8,7 @@ import Script from "next/script";
 
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-// import Header from "@/components/basics/Header";
+import Header from "@/components/basics/Header";
 import Footer from "@/components/basics/Footer";
 import Image from "next/image";
 
@@ -228,7 +228,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
-          {/* <Header /> */}
+          <Header />
 
           <main id="main-content" className="flex-1">
             {children}
