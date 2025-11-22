@@ -73,7 +73,7 @@ export default function SaleHero() {
           
           {/* Live Time - Bottom Left */}
           <div>
-            <h1 className="text-[36px] font-black uppercase text-white absolute bottom-10">
+            <h1 className="text-[36px] font-black uppercase text-white absolute bottom-30">
               LIVE AT 9:00 PM IST
             </h1>
           </div>
