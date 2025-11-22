@@ -101,7 +101,7 @@ export default function SaleHero() {
           
           {/* Main Text - Left Side */}
           <div className="flex-1 flex">
-            <h1 className="text-[#fafbac] text-[96px] w-130 tracking-tight leading-20 mt-10">
+            <h1 className="text-[#fafbac] text-[96px] w-120 tracking-tight leading-20 mt-10">
               Archive pieces on <span className="text-[#fa7ba0]">sale</span> tonight, one crazy <span className="text-[#fa7ba0]">flat price</span> & free shipping.
             </h1>
           </div>
