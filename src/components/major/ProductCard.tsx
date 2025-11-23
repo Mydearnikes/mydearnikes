@@ -1,4 +1,5 @@
 
+
 "use client";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,15 +8,13 @@ import { trackProductClick } from "@/lib/analytics";
 
 interface ProductCardProps {
   product: SimpleProduct;
-  listName?:string;
-  position?:number;
+  listName?: string;
+  position?: number;
 }
 
-export default function ProductCard({ product, listName="Product Grid", position= 0 }: ProductCardProps) {
-  // Get main product image
+export default function ProductCard({ product, listName = "Product Grid", position = 0 }: ProductCardProps) {
   const mainImage = product.featuredImage || product.images[0];
 
-  // Format the price
   const formatPrice = (amount: string, currencyCode: string) => {
     const price = parseFloat(amount);
     if (currencyCode === "INR") {
@@ -29,9 +28,11 @@ export default function ProductCard({ product, listName="Product Grid", position
     product.price.currencyCode
   );
 
-   const handleClick = () => {
+  const handleClick = () => {
     trackProductClick(product, listName, position);
   };
+
+  const isOutOfStock = !product.availableForSale;
 
   return (
     <Link
@@ -56,9 +57,17 @@ export default function ProductCard({ product, listName="Product Grid", position
             <span className="text-gray-400 text-sm">No Image</span>
           </div>
         )}
+
+        {/* Sold Out Badge */}
+        {isOutOfStock && (
+          <div className="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs font-bold uppercase">
+            Sold Out
+          </div>
+        )}
       </div>
+      
       <div className="px-2 bg-white py-1 flex border-t-[0.5px] border-gray-200 justify-between items-center gap-6 text-sm">
-        <h3 className="font-inter text-xs  font-normal truncate uppercase">{product.title}</h3>
+        <h3 className="font-inter text-xs font-normal truncate uppercase">{product.title}</h3>
         <p className="font-inter text-xs font-normal tracking-tight">
           {displayPrice}
         </p>
