@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div>
       <h1 className="text-sm font-bold font-mono">
-        <SaleHero/>
+        {/* <SaleHero/> */}
         <HeroSection />
         <LatestDropHero />
         <ShopByCategory/>
