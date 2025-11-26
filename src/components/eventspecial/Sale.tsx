@@ -11,7 +11,7 @@ export default function SaleHero() {
       {/* MOBILE VERSION - Hidden on md and above */}
       <div 
         className="min-h-screen w-full bg-cover bg-center bg-no-repeat relative md:hidden"
-        style={{ backgroundImage: "url('/images/saleAssetMob.webp')" }}
+        style={{ backgroundImage: "url('/images/wallP.png')" }}
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 " />
@@ -56,7 +56,7 @@ export default function SaleHero() {
       {/* DESKTOP VERSION - Hidden on mobile, visible on md and above */}
       <div 
         className="min-h-screen w-full bg-cover bg-center bg-no-repeat flex-col justify-between relative p-4 md:py-12 hidden md:flex"
-        style={{ backgroundImage: "url('/images/saleAsset.webp')" }}
+        style={{ backgroundImage: "url('/images/wallP.png')" }}
       >
         {/* Dark overlay */}
         <div className="absolute inset-0" />

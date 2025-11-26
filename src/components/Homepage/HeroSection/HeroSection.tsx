@@ -30,43 +30,43 @@ const HeroSection = () => {
   const heroSlides: HeroSlide[] = [
     {
       id: 1,
-      bgImage: "/images/bigBg.webp",
-      productImage: "/images/mock.webp",
-      productName: "Meant Nothing?",
-      productPrice: "₹1,299",
-      productLink: "/product/oversized-unisex-tee-2",
+      bgImage: "/images/imageHeroNew1.webp",
+      productImage: "/images/saveOurAnimals.webp",
+      productName: "save our animals",
+      productPrice: "₹1,399",
+      productLink: "/product/unisex-classic-crew-t-shirt-36",
     },
     {
       id: 2,
-      bgImage: "/images/heroNew.webp",
-      productImage: "/images/HRU.webp",
-      productName: "How Are You Feeling Today",
-      productPrice: "₹1,299",
+      bgImage: "/images/imageHeroNew2.webp",
+      productImage: "/images/overThug.webp",
+      productName: "I hate when GIRLS die",
+      productPrice: "₹999",
       productLink:
-        "/product/unisex-oversized-classic-t-shirt-2?variant=46535005241562",
+        "/product/unisex-classic-crew-t-shirt-43",
     },
     {
       id: 3,
-      bgImage: "/images/pinkBlunt.webp",
-      productImage: "/images/soMany.webp",
-      productName: "so many bad bitches",
-      productPrice: "₹699",
-      productLink: "/product/crop-top-2?variant=46209917452506",
+      bgImage: "/images/imageHeroNew3.webp",
+      productImage: "/images/babyThug.webp",
+      productName: "I hate when GIRLS die",
+      productPrice: "₹799",
+      productLink: "/product/baby-tee-7",
     },
   ];
 
   const mobileHeroSlides: MobileHeroSlide[] = [
     {
       id: 1,
-      bgImage: "/images/bigBg.webp",
+      bgImage: "/images/imageHeroNew1.webp",
     },
     {
       id: 2,
-      bgImage: "/images/heroImage.webp",
+      bgImage: "/images/imageHeroNew2.webp",
     },
     {
       id: 3,
-      bgImage: "/images/heroNew.webp",
+      bgImage: "/images/imageHeroNew3.webp",
     },
   ];
 
