@@ -1,3 +1,6 @@
+
+
+
 "use client";
 import { notFound } from "next/navigation";
 import { getProductByHandle, getRandomProducts } from "@/lib/shopify/client";
@@ -206,26 +209,6 @@ export default function ProductPage({ params }: ProductPageProps) {
         }
 
         setProduct(productData);
-        let firstVariant = null;
-        
-        // Auto select the first available variant
-        if (productData.variants && productData.variants.length > 0) {
-          const variant = productData.variants[0];
-          firstVariant= variant;
-          setSelectedVariant(variant);
-
-          const sizeOption = variant.selectedOptions?.find((opt) =>
-            opt.name.toLowerCase().includes("size")
-          );
-          const colorOption = variant.selectedOptions?.find((opt) =>
-            opt.name.toLowerCase().includes("color")
-          );
-
-          if (sizeOption) setSelectedSize(sizeOption.value);
-          if (colorOption) setSelectedColor(colorOption.value);
-        }
-
-        trackProductView(productData, firstVariant);
       } catch (error) {
         console.error("Error loading product:", error);
         notFound();
@@ -236,6 +219,32 @@ export default function ProductPage({ params }: ProductPageProps) {
     
     fetchProduct();
   }, [params]);
+
+  // Initialize selections when product changes
+  useEffect(() => {
+    if (product) {
+      setQuantity(1);
+      
+      // Auto-select first available variant
+      if (product.variants && product.variants.length > 0) {
+        const variant = product.variants.find(v => v.availableForSale) || product.variants[0];
+        setSelectedVariant(variant);
+
+        const sizeOption = variant.selectedOptions?.find((opt) =>
+          opt.name.toLowerCase().includes("size")
+        );
+        const colorOption = variant.selectedOptions?.find((opt) =>
+          opt.name.toLowerCase().includes("color")
+        );
+
+        setSelectedSize(sizeOption?.value || "");
+        setSelectedColor(colorOption?.value || "");
+        
+        // Track product view with the selected variant
+        trackProductView(product, variant);
+      }
+    }
+  }, [product]);
 
   // Track recently viewed and fetch related products
   useEffect(() => {
@@ -279,16 +288,6 @@ export default function ProductPage({ params }: ProductPageProps) {
     const matchingVariant = findMatchingVariant(product, selectedSize, selectedColor);
     setSelectedVariant(matchingVariant);
   }, [selectedSize, selectedColor, product, findMatchingVariant]);
-
-  // Reset selections when product changes
-  useEffect(() => {
-    if (product) {
-      setSelectedSize("");
-      setSelectedColor("");
-      setSelectedVariant(null);
-      setQuantity(1);
-    }
-  }, [product]);
 
   if (loading) {
     return <ProductPageSkeleton />;
