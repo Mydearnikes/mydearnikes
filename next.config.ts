@@ -7,6 +7,7 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 const isAnalyze = process.env.ANALYZE === "true";
 
 const nextConfig: NextConfig = {
+   turbopack: {},
   // Enable experimental features for better performance
   experimental: {
     optimizeCss: true, // reduce and optimize the css size.
