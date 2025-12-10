@@ -369,8 +369,35 @@ const SizeSelector = ({
 
   const { sizes, availability, stockLevels } = extractSizes();
 
-  // If no sizes found, don't render the size selector at all
+  // Get total stock for products without sizes (like lighters/accessories)
+  const getTotalStock = () => {
+    if (!product.variants || product.variants.length === 0) return null;
+    
+    // If there are sizes, return null (we'll show size-specific stock)
+    if (sizes.length > 0) return null;
+    
+    // For products without sizes, sum up all variant quantities
+    const total = product.variants.reduce((sum, variant) => {
+      return sum + (variant.quantityAvailable || 0);
+    }, 0);
+    
+    return total;
+  };
+
+  const totalStock = getTotalStock();
+  
+  // If no sizes found, don't render the size selector but still show stock warning
   if (sizes.length === 0) {
+    // Show low stock warning for products without sizes
+    if (showStockInfo && totalStock !== null && totalStock > 0 && totalStock <= 10) {
+      return (
+        <div className="px-[8px] mt-3">
+          <p className="text-xs text-orange-600 font-medium">
+            ⚠️ Only {totalStock} {totalStock === 1 ? "item" : "items"} left in stock!
+          </p>
+        </div>
+      );
+    }
     return null;
   }
 
@@ -387,7 +414,7 @@ const SizeSelector = ({
   const showLowStock =
     selectedSizeStock !== null &&
     selectedSizeStock > 0 &&
-    selectedSizeStock <= 5;
+    selectedSizeStock <= 10; // Changed from 5 to 10
 
   return (
     <>
