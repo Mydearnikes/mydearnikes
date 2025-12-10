@@ -18,6 +18,11 @@ const ShopByCategory = () => {
 
   const categories = [
     {
+      href: "/category/lighters",
+      image: "/images/lighters.webp",
+      title: "Lighters"
+    },
+    {
       href: "/category/oversized-unisex-tees",
       image: "/images/over.webp",
       title: "Oversized Tees"

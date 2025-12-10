@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -7,7 +6,8 @@ import { X } from "lucide-react";
 import { SimpleProduct, ProductVariant } from "@/types/shopify";
 import { getSizeChartByProductType } from "@/lib/sizeCharts";
 import Image from "next/image";
-import measuringTapeIcon from "/public/images/measuring.png";
+
+import measuringTapeIcon from "../../../public/images/measuring.png";
 
 interface SizeSelectorProps {
   product: SimpleProduct;
