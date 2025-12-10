@@ -402,7 +402,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className="flex items-center justify-between p-4 border-b"
+              className="flex items-center justify-between p-4 border-b "
             >
               <h2 className="text-[28px] md:text-[36px] font-semibold">
                 Cart ({totalItems})
@@ -428,7 +428,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
             </motion.div>
 
             {/* Cart Content */}
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-[90vh] lg:h-full">
               {items.length === 0 ? (
                 /* Empty Cart */
                 <motion.div
