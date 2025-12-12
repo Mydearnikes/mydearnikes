@@ -240,7 +240,12 @@ const Header = () => {
     } else if (key === "lighters") {
       setActive(null);
       router.push("/category/lighters");
-    }  else if (key === "search") {
+    }
+    else if (key === "tumblers") {
+      setActive(null);
+      router.push("/category/tumbler-bottles");
+    } 
+    else if (key === "search") {
       setActive("search");
     } else {
       const validKeys: ActiveState[] = [
@@ -263,7 +268,7 @@ const Header = () => {
     { key: "tees", label: "Tees" },
     { key: "hoodies", label: "Hoodies & Sweats" },
     { key: "lighters", label: "Lighters" },
-    // { key: "tumblers", label: "Tumblers" },
+    { key: "tumblers", label: "Tumblers" },
     { key: "search", label: "Search" },
   ];
 

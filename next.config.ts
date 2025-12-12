@@ -7,7 +7,7 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 const isAnalyze = process.env.ANALYZE === "true";
 
 const nextConfig: NextConfig = {
-   turbopack: {},
+  turbopack: {},
   // Enable experimental features for better performance
   experimental: {
     optimizeCss: true, // reduce and optimize the css size.
@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
 
   // Image optimization -> nextjs auto converts images to  newer, smaller formats to load faster.
   images: {
+    unoptimized: true,
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

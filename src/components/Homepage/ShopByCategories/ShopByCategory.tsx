@@ -23,6 +23,11 @@ const ShopByCategory = () => {
       title: "Lighters"
     },
     {
+      href: "/category/tumbler-bottles",
+      image: "/images/tumbler.webp",
+      title: "Tumblers"
+    },
+    {
       href: "/category/oversized-unisex-tees",
       image: "/images/over.webp",
       title: "Oversized Tees"
