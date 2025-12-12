@@ -241,10 +241,7 @@ const Header = () => {
       setActive(null);
       router.push("/category/lighters");
     }
-    else if (key === "tumblers") {
-      setActive(null);
-      router.push("/category/tumbler-bottles");
-    } 
+   
     else if (key === "search") {
       setActive("search");
     } else {
