@@ -87,7 +87,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     { name: "Hoodies & Sweats", href: "/category/hoodies", slug: "hoodies" },
     { name: "Lighters", href: "/category/lighters", slug: "lighters" },
 
-    // { name: "Tumblers", href: "/category/tumbler-bottles", slug: "tumbler-bottles" },
+    { name: "Tumblers", href: "/category/tumbler-bottles", slug: "tumbler-bottles" },
 
     // { name: "Sweatpants", href: "/category/sweatpants", slug: "sweatpants" },
   ];
