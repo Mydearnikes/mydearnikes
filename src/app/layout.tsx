@@ -187,12 +187,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
           crossOrigin="anonymous"
         />
 
-        {/* <link
+        <link
           rel="preload"
           as="image"
-          href="/images/bigBg.webp"
+          href="/images/imageHeroNew1.webp"
           fetchPriority="high"
-        /> */}
+        />
 
         {/* DNS prefetch for third-party services */}
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
