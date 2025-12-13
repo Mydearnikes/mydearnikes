@@ -1,5 +1,3 @@
-
-
 "use client";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +10,11 @@ interface ProductCardProps {
   position?: number;
 }
 
-export default function ProductCard({ product, listName = "Product Grid", position = 0 }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  listName = "Product Grid",
+  position = 0,
+}: ProductCardProps) {
   const mainImage = product.featuredImage || product.images[0];
 
   const formatPrice = (amount: string, currencyCode: string) => {
@@ -47,10 +49,16 @@ export default function ProductCard({ product, listName = "Product Grid", positi
             alt={mainImage.altText || product.title}
             width={500}
             height={500}
-            sizes="(max-width: 768px) 50vw, 33vw"
-            quality={90}
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            priority={Number(product.id) <= 4}
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            quality={75}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ease-out opacity-0"
+            onLoad={(e) => {
+              e.currentTarget.classList.add("loaded");
+            }}
+            style={{
+              transition: "opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center absolute inset-0">
@@ -65,9 +73,11 @@ export default function ProductCard({ product, listName = "Product Grid", positi
           </div>
         )}
       </div>
-      
+
       <div className="px-2 bg-white py-1 flex border-t-[0.5px] border-gray-200 justify-between items-center gap-6 text-sm">
-        <h3 className="font-inter text-xs font-normal truncate uppercase">{product.title}</h3>
+        <h3 className="font-inter text-xs font-normal truncate uppercase">
+          {product.title}
+        </h3>
         <p className="font-inter text-xs font-normal tracking-tight">
           {displayPrice}
         </p>

@@ -1,8 +1,7 @@
-
-
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -22,11 +21,6 @@ const ShopByCategory = () => {
       image: "/images/lighters.webp",
       title: "Lighters"
     },
-    // {
-    //   href: "/category/tumbler-bottles",
-    //   image: "/images/tumbler.webp",
-    //   title: "Tumblers"
-    // },
     {
       href: "/category/oversized-unisex-tees",
       image: "/images/over.webp",
@@ -54,6 +48,18 @@ const ShopByCategory = () => {
     }
   ];
 
+  // DON'T preload all images - only first 2 visible ones
+  useEffect(() => {
+    // Only preload first 2 category images (visible on load)
+    categories.slice(0, 2).forEach(category => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = category.image;
+      document.head.appendChild(link);
+    });
+  }, []);
+
   // Check scroll position to show/hide buttons
   const checkScroll = () => {
     if (scrollContainerRef.current) {
@@ -74,7 +80,7 @@ const ShopByCategory = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 500; // Adjust this value for scroll distance
+      const scrollAmount = 500;
       const newScrollLeft = direction === 'left' 
         ? scrollContainerRef.current.scrollLeft - scrollAmount
         : scrollContainerRef.current.scrollLeft + scrollAmount;
@@ -146,11 +152,24 @@ const ShopByCategory = () => {
               >
                 <Link 
                   href={category.href}
-                  className="category bg-gray-100 w-[300px] lg:w-[500px] h-[450px] lg:h-[700px] bg-cover bg-center flex justify-center items-end group relative overflow-hidden"
-                  style={{ backgroundImage: `url('${category.image}')` }}
+                  className="category bg-gray-100 w-[300px] lg:w-[500px] h-[450px] lg:h-[700px] flex justify-center items-end group relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                  <div className="shopText font-inter text-sm tracking-tight text-white mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300 border-[0.125px] border-[#aeadad] bg-black  px-3 py-2 rounded-full">
+                  {/* Use Next.js Image instead of CSS background */}
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    sizes="(max-width: 1024px) 300px, 500px"
+                    quality={75}
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading={index < 2 ? "eager" : "lazy"}
+                  />
+                  
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-0"></div>
+                  
+                  {/* Category title */}
+                  <div className="shopText font-inter text-sm tracking-tight text-white mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300 border-[0.125px] border-[#aeadad] bg-black px-3 py-2 rounded-full">
                     {category.title}
                   </div>
                 </Link>

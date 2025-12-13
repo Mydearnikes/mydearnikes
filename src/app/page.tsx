@@ -1,7 +1,7 @@
 
-import ExploreMDN from "@/components/Homepage/ExploreMDN/ExploreMDN";
+import {ExploreMDN} from "@/components/Homepage/ExploreMDN/ExploreMDN";
 import HeroSection from "@/components/Homepage/HeroSection/HeroSection";
-import LatestDropHero from "@/components/Homepage/latestDropHero/LatestDropHero";
+import {LatestDrop} from "@/components/Homepage/latestDropHero/LatestDropHero";
 import ShopByCategory from "@/components/Homepage/ShopByCategories/ShopByCategory";
 
 
@@ -15,7 +15,7 @@ export default function Home() {
         {/* <SaleHero/> */}
 
         <HeroSection />
-        <LatestDropHero />
+        <LatestDrop />
         <ShopByCategory/>
         <ExploreMDN/>
 

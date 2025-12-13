@@ -48,13 +48,13 @@ export default function ProductGrid({
       },
       {
         root: null,
-        rootMargin: '400px', // Start loading 400px before bottom
-        threshold: 0.1
+        rootMargin: "400px", // Start loading 400px before bottom
+        threshold: 0.1,
       }
     );
 
     // Observe the loading trigger element
-    const loadTrigger = document.getElementById('product-grid-load-trigger');
+    const loadTrigger = document.getElementById("product-grid-load-trigger");
     if (loadTrigger) {
       observer.observe(loadTrigger);
     }
@@ -72,24 +72,24 @@ export default function ProductGrid({
           {/* <h1 className="uppercase text-2xl font-medium">{title}</h1> */}
         </div>
       )}
-      
-      <div 
+
+      <div
         ref={ref}
         className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 bg-gray-100 border-[0.25px] border-b-[0.125px] border-[#aeadad] auto-rows-fr"
       >
         {visibleProducts.map((product, index) => (
-          <motion.div
+          <div
             key={product.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.5,
-              delay: inView ? (index % 8) * 0.05 : 0,
-              ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+            style={{
+              animation: inView
+                ? `fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${
+                    (index % 8) * 0.03
+                  }s both`
+                : "none",
             }}
           >
             <ProductCard product={product} listName={title} position={index} />
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -113,7 +113,9 @@ export default function ProductGrid({
       {/* 🔥 End message when all products are loaded */}
       {!hasMore && products.length > itemsPerPage && (
         <div className="flex justify-center py-8">
-          <p className="text-sm text-gray-500 capitalize">You Have seen all products in this category.</p>
+          <p className="text-sm text-gray-500 capitalize">
+            You Have seen all products in this category.
+          </p>
         </div>
       )}
     </>

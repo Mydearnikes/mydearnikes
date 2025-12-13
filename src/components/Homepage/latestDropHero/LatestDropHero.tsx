@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { SimpleProduct } from "@/types/shopify";
 import { getLatestProducts } from "@/lib/shopify/client";
@@ -19,7 +18,7 @@ const ProductSkeleton = () => (
   </div>
 );
 
-const LatestDrop = () => {
+export const LatestDrop = () => {
   const [products, setProducts] = useState<SimpleProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,15 +69,15 @@ const LatestDrop = () => {
 
   return (
     <>
-      <motion.div 
+      <div 
         ref={ref}
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.6 }}
         className="heading px-[8px] py-4 lg:py-8"
+        style={{
+          animation: inView ? 'fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both' : 'none'
+        }}
       >
         <h1 className="uppercase text-2xl lg:text-4xl font-bebas font-medium">Latest Drop</h1>
-      </motion.div>
+      </div>
 
       <div 
         ref={ref}
@@ -89,14 +88,10 @@ const LatestDrop = () => {
               <ProductSkeleton key={`skeleton-${index}`} />
             ))
           : products.map((product, index) => (
-              <motion.div 
-                key={product.id} 
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: inView ? index * 0.05 : 0,
-                  ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+              <div 
+                key={product.id}
+                style={{
+                  animation: inView ? `fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.03}s both` : 'none'
                 }}
               >
                 <Link
@@ -111,9 +106,13 @@ const LatestDrop = () => {
                         width={500}
                         height={500}
                         sizes="(max-width: 768px) 50vw, 33vw"
-                        quality={90}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        priority={index < 8}
+                        quality={75}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-0"
+                        onLoad={(e) => e.currentTarget.classList.add('loaded')}
+                        style={{
+                          transition: 'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                        }}
                       />
                     ) : (
                       <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
@@ -130,15 +129,15 @@ const LatestDrop = () => {
                     </p>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView && !loading ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
+      <div 
         className="flex justify-center py-8"
+        style={{
+          animation: inView && !loading ? 'fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both' : 'none'
+        }}
       >
         <Link
           href="/category/new-arrivals"
@@ -146,16 +145,12 @@ const LatestDrop = () => {
         >
           Explore More
         </Link>
-      </motion.div>
+      </div>
 
       <style jsx>{`
         @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
         }
         .animate-shimmer {
           animation: shimmer 2s infinite;
@@ -164,5 +159,3 @@ const LatestDrop = () => {
     </>
   );
 };
-
-export default LatestDrop;

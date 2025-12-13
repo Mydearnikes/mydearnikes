@@ -2,13 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
 import { SimpleProduct } from "@/types/shopify";
 import { getBestSellingProducts } from "@/lib/shopify/client";
 
-// Skeleton loader component
 const ProductSkeleton = () => (
   <div className="border-b-[0.25px] border-r-[0.25px] border-gray-400 flex flex-col animate-pulse">
     <div className="relative aspect-square bg-gray-100 overflow-hidden">
@@ -21,7 +18,7 @@ const ProductSkeleton = () => (
   </div>
 );
 
-const ExploreMDN = () => {
+export const ExploreMDN = () => {
   const [products, setProducts] = useState<SimpleProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,8 +36,8 @@ const ExploreMDN = () => {
         const bestSellingProducts = await getBestSellingProducts(20);
         setProducts(bestSellingProducts);
       } catch (err) {
-        setError('Failed to fetch best-selling products');
-        console.error('Error fetching products:', err);
+        setError("Failed to fetch best-selling products");
+        console.error("Error fetching products:", err);
       } finally {
         setLoading(false);
       }
@@ -51,9 +48,9 @@ const ExploreMDN = () => {
 
   const loadMore = useCallback(() => {
     if (isLoadingMore || visibleItems >= 20) return;
-    
+
     setIsLoadingMore(true);
-    
+
     setTimeout(() => {
       setVisibleItems((prev) => Math.min(prev + 4, 20));
       setIsLoadingMore(false);
@@ -73,12 +70,12 @@ const ExploreMDN = () => {
       },
       {
         root: null,
-        rootMargin: '300px',
-        threshold: 0.1
+        rootMargin: "400px",
+        threshold: 0.1,
       }
     );
 
-    const loadTrigger = document.getElementById('bestsellers-load-trigger');
+    const loadTrigger = document.getElementById("bestsellers-load-trigger");
     if (loadTrigger) {
       observer.observe(loadTrigger);
     }
@@ -88,8 +85,8 @@ const ExploreMDN = () => {
 
   const formatPrice = (price: { amount: string; currencyCode: string }) => {
     const amount = parseFloat(price.amount);
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
       currency: price.currencyCode,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
@@ -124,31 +121,35 @@ const ExploreMDN = () => {
 
   return (
     <>
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.6 }}
+      <div
         className="heading px-[8px] py-4 lg:py-8"
+        style={{
+          animation: inView
+            ? "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both"
+            : "none",
+        }}
       >
-        <h1 className="uppercase text-2xl lg:text-4xl font-medium">Bestsellers</h1>
-      </motion.div>
+        <h1 className="uppercase text-2xl lg:text-4xl font-medium">
+          Bestsellers
+        </h1>
+      </div>
 
-      <div 
+      <div
         ref={ref}
         className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 bg-gray-100 border-[0.25px] border-b-[0.125px] border-[#aeadad]"
       >
         {visibleProducts.map((product, index) => (
-          <motion.div
+          <div
             key={product.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ 
-              duration: 0.5, 
-              delay: inView ? index * 0.05 : 0,
-              ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+            style={{
+              animation: inView
+                ? `fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) ${
+                    index * 0.03
+                  }s both`
+                : "none",
             }}
           >
-            <Link 
+            <Link
               href={`/product/${product.handle}`}
               className="border-b-[0.25px] border-r-[0.25px] border-gray-400 flex flex-col group cursor-pointer hover:bg-gray-50 transition-colors duration-200"
             >
@@ -160,9 +161,13 @@ const ExploreMDN = () => {
                     width={500}
                     height={500}
                     sizes="(max-width: 768px) 50vw, 33vw"
-                    quality={90}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    priority={index < 8}
+                    quality={75}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-0"
+                    onLoad={(e) => e.currentTarget.classList.add("loaded")}
+                    style={{
+                      transition: "opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
                   />
                 ) : (
                   <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
@@ -179,13 +184,13 @@ const ExploreMDN = () => {
                 </p>
               </div>
             </Link>
-          </motion.div>
+          </div>
         ))}
       </div>
 
-      {visibleItems < 20 && products.length > visibleItems && (
-        <div 
-          id="bestsellers-load-trigger" 
+      {hasMore && (
+        <div
+          id="bestsellers-load-trigger"
           className="h-20 flex items-center justify-center"
         >
           {isLoadingMore ? (
@@ -199,19 +204,22 @@ const ExploreMDN = () => {
       )}
 
       {showExploreButton && (
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView && !loading ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+        <div
           className="flex justify-center py-8"
+          style={{
+            animation:
+              inView && !loading
+                ? "fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both"
+                : "none",
+          }}
         >
           <Link
             href="/category/all-products"
             className="bg-black text-white px-8 py-3 text-sm font-medium tracking-tight hover:bg-gray-800 transition-colors duration-200 rounded-none border-none"
           >
-            Explore More 
+            Explore More
           </Link>
-        </motion.div>
+        </div>
       )}
 
       <style jsx>{`
@@ -230,5 +238,3 @@ const ExploreMDN = () => {
     </>
   );
 };
-
-export default ExploreMDN;
