@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import localfont from "next/font/local";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react"; 
+import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -227,7 +227,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={`${inter.variable} ${bebasNeue.variable} ${ispire.variable}`}
       >
-        <SmoothScroll/>
+        <SmoothScroll />
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
           <Header />
@@ -240,7 +240,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </div>
 
         {/* Global UI components */}
-        <Toaster position="top-right" expand={true} closeButton />
+        {/* <Toaster position="top-right" expand={true} closeButton />
+         */}
+
+        <Toaster
+          position="top-center"
+          expand={true}
+          closeButton
+          toastOptions={{
+            style: {
+              marginTop: "50px", // Below your header
+            },
+          }}
+        />
 
         {/* ========================================
             ANALYTICS STACK - LOAD IN ORDER

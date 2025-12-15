@@ -1,3 +1,6 @@
+
+
+
 // "use client";
 
 // import { useState } from "react";
@@ -26,10 +29,10 @@
 
 //   // Extract sizes from variants and track availability
 //   const extractSizes = () => {
-//     // Fallback to default sizes if no variants
+//     // If no variants, no sizes to show
 //     if (!product.variants || product.variants.length === 0) {
 //       return {
-//         sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+//         sizes: [],
 //         availability: {},
 //         stockLevels: {},
 //       };
@@ -74,16 +77,43 @@
 //       Object.entries(sizeData).map(([size, data]) => [size, data.stock])
 //     );
 
-//     return sizes.length > 0
-//       ? { sizes, availability, stockLevels }
-//       : {
-//           sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-//           availability: {},
-//           stockLevels: {},
-//         };
+//     return { sizes, availability, stockLevels };
 //   };
 
 //   const { sizes, availability, stockLevels } = extractSizes();
+
+//   // Get total stock for products without sizes (like lighters/accessories)
+//   const getTotalStock = () => {
+//     if (!product.variants || product.variants.length === 0) return null;
+    
+//     // If there are sizes, return null (we'll show size-specific stock)
+//     if (sizes.length > 0) return null;
+    
+//     // For products without sizes, sum up all variant quantities
+//     const total = product.variants.reduce((sum, variant) => {
+//       return sum + (variant.quantityAvailable || 0);
+//     }, 0);
+    
+//     return total;
+//   };
+
+//   const totalStock = getTotalStock();
+  
+//   // If no sizes found, don't render the size selector but still show stock warning
+//   if (sizes.length === 0) {
+//     // Show low stock warning for products without sizes
+//     if (showStockInfo && totalStock !== null && totalStock > 0 && totalStock <= 10) {
+//       return (
+//         <div className="px-[8px] mt-3">
+//           <p className="text-xs text-orange-600 font-medium">
+//             ⚠️ Only {totalStock} {totalStock === 1 ? "item" : "items"} left in stock!
+//           </p>
+//         </div>
+//       );
+//     }
+//     return null;
+//   }
+
 //   const sizeChart = getSizeChartByProductType(product.productType);
 
 //   const handleSizeClick = (size: string) => {
@@ -97,7 +127,7 @@
 //   const showLowStock =
 //     selectedSizeStock !== null &&
 //     selectedSizeStock > 0 &&
-//     selectedSizeStock <= 5;
+//     selectedSizeStock <= 10; // Changed from 5 to 10
 
 //   return (
 //     <>
@@ -287,7 +317,6 @@
 
 // export default SizeSelector;
 
-
 "use client";
 
 import { useState } from "react";
@@ -316,7 +345,6 @@ const SizeSelector = ({
 
   // Extract sizes from variants and track availability
   const extractSizes = () => {
-    // If no variants, no sizes to show
     if (!product.variants || product.variants.length === 0) {
       return {
         sizes: [],
@@ -333,7 +361,6 @@ const SizeSelector = ({
       };
     } = {};
 
-    // Process each variant to extract size options
     product.variants.forEach((variant) => {
       const sizeOption = variant.selectedOptions?.find((option) =>
         option.name.toLowerCase().includes("size")
@@ -348,7 +375,6 @@ const SizeSelector = ({
             stock: 0,
           };
         }
-        // Mark as available if any variant with this size is in stock
         if (variant.availableForSale) {
           sizeData[size].available = true;
           sizeData[size].stock = variant.quantityAvailable || 0;
@@ -369,14 +395,10 @@ const SizeSelector = ({
 
   const { sizes, availability, stockLevels } = extractSizes();
 
-  // Get total stock for products without sizes (like lighters/accessories)
   const getTotalStock = () => {
     if (!product.variants || product.variants.length === 0) return null;
-    
-    // If there are sizes, return null (we'll show size-specific stock)
     if (sizes.length > 0) return null;
     
-    // For products without sizes, sum up all variant quantities
     const total = product.variants.reduce((sum, variant) => {
       return sum + (variant.quantityAvailable || 0);
     }, 0);
@@ -386,12 +408,10 @@ const SizeSelector = ({
 
   const totalStock = getTotalStock();
   
-  // If no sizes found, don't render the size selector but still show stock warning
   if (sizes.length === 0) {
-    // Show low stock warning for products without sizes
     if (showStockInfo && totalStock !== null && totalStock > 0 && totalStock <= 10) {
       return (
-        <div className="px-[8px] mt-3">
+        <div className="px-2 mt-3">
           <p className="text-xs text-orange-600 font-medium">
             ⚠️ Only {totalStock} {totalStock === 1 ? "item" : "items"} left in stock!
           </p>
@@ -404,67 +424,68 @@ const SizeSelector = ({
   const sizeChart = getSizeChartByProductType(product.productType);
 
   const handleSizeClick = (size: string) => {
-    // Don't allow selection of unavailable sizes
     if (availability[size] === false) return;
     onSizeChange(size);
   };
 
-  // Get stock count for selected size
   const selectedSizeStock = selectedSize ? stockLevels[selectedSize] : null;
   const showLowStock =
     selectedSizeStock !== null &&
     selectedSizeStock > 0 &&
-    selectedSizeStock <= 10; // Changed from 5 to 10
+    selectedSizeStock <= 10;
 
   return (
     <>
-      <div className="flex items-center mt-3 px-[8px] w-full justify-between ">
-        <div className="container flex items-center gap-3">
-          <div className="heading text-[12px] mt-2 font-regular">Size</div>
-          <div className="sizeContainer">
-            {sizes.map((size) => {
-              const isAvailable = availability[size] !== false;
-              const isSelected = selectedSize === size;
-
-              return (
-                <Button
-                  variant={"outline"}
-                  key={size}
-                  className={`rounded-sm text-[10px] px-3 py-2 mr-3 transition-all mt-2 ${
-                    isSelected
-                      ? "bg-black text-white"
-                      : isAvailable
-                      ? "bg-white text-black border-[0.25px] border-[#aeadad] border-opacity-25 hover:border-gray-400"
-                      : "bg-gray-100 text-gray-400 border-[0.25px] border-gray-300 cursor-default"
-                  }`}
-                  onClick={() => handleSizeClick(size)}
-                  disabled={!isAvailable}
-                >
-                  {size}
-                </Button>
-              );
-            })}
-          </div>
+      <div className="mt-2 px-2">
+        {/* Header: Size label and tape icon */}
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-medium text-gray-900">
+            Size
+          </label>
+          <button
+            onClick={() => setShowSizeChart(true)}
+            className="hover:bg-gray-100 p-1 rounded-full transition-colors cursor-pointer"
+            aria-label="Open size chart"
+          >
+            <Image
+              src={measuringTapeIcon}
+              alt="Size Guide"
+              width={24}
+              height={24}
+            />
+          </button>
         </div>
-        {/* Size chart icon - click to show size guide modal */}
-        <button
-          onClick={() => setShowSizeChart(true)}
-          className="sizeChart text-xs mt-2  hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-          aria-label="Open size chart"
-        >
-          <Image
-            src={measuringTapeIcon}
-            alt="Size Guide"
-            width={24}
-            height={24}
-            className="text-black"
-          />
-        </button>
+
+        {/* Size buttons */}
+        <div className="flex flex-wrap gap-2">
+          {sizes.map((size) => {
+            const isAvailable = availability[size] !== false;
+            const isSelected = selectedSize === size;
+
+            return (
+              <Button
+                variant="outline"
+                key={size}
+                className={`rounded-lg text-xs px-4 py-2 transition-all border-[0.25px] ${
+                  isSelected
+                    ? "bg-black text-white border-black"
+                    : isAvailable
+                    ? "bg-white text-black border-gray-200 hover:border-gray-400"
+                    : "bg-gray-300 text-gray-400 border-gray-200 cursor-not-allowed opacity-50"
+                }`}
+                onClick={() => handleSizeClick(size)}
+                disabled={!isAvailable}
+              >
+                {size}
+              </Button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Stock Information Display */}
       {showStockInfo && selectedSize && showLowStock && (
-        <div className="px-[8px] mt-3">
+        <div className="px-2 mt-3">
           <p className="text-xs text-orange-600 font-medium">
             ⚠️ Only {selectedSizeStock}{" "}
             {selectedSizeStock === 1 ? "item" : "items"} left in stock!
@@ -484,7 +505,7 @@ const SizeSelector = ({
           {/* Modal Container */}
           <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center pointer-events-none p-0 md:p-4">
             <div className="bg-white rounded-t-3xl md:rounded-lg w-full md:max-w-6xl max-h-[95vh] md:min-h-[95vh] flex flex-col pointer-events-auto shadow-2xl">
-              {/* Modal Header - FIXED at top */}
+              {/* Modal Header */}
               <div className="flex justify-between items-center border-b border-gray-200 p-4 md:p-6 flex-shrink-0">
                 <h2 className="text-lg md:text-3xl font-bold text-gray-900">
                   {sizeChart.title}
@@ -498,20 +519,18 @@ const SizeSelector = ({
                 </button>
               </div>
 
-              {/* Modal Content - SCROLLABLE area */}
-              <div className="overflow-y-auto flex-1 p-4 md:p-6 md:h-full ">
-                {/* Mobile: Single column, Tablet & Desktop: 2 columns */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:h-[70vh] ">
+              {/* Modal Content */}
+              <div className="overflow-y-auto flex-1 p-4 md:p-6 md:h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:h-[70vh]">
                   {/* LEFT COLUMN - Size Chart Image */}
-                  <div className="flex flex-col space-y-4 md:h-[70vh] ">
-                    <div className="relative w-full   md:h-full  rounded-lg">
-                      {/* Mobile: Full screen width, large height */}
-                      <div className="relative w-full min-h-[450px] md:h-full md:min-h-[550px] ">
+                  <div className="flex flex-col space-y-4 md:h-[70vh]">
+                    <div className="relative w-full md:h-full rounded-lg">
+                      <div className="relative w-full min-h-[450px] md:h-full md:min-h-[550px]">
                         <Image
                           src={sizeChart.image}
                           alt={sizeChart.title}
                           fill
-                          className="object-cover "
+                          className="object-cover"
                           sizes="(max-width: 768px) 100vw, 50vw"
                           priority
                           quality={100}
@@ -521,10 +540,10 @@ const SizeSelector = ({
                   </div>
 
                   {/* RIGHT COLUMN - Info sections */}
-                  <div className="flex flex-col   gap-5 ">
-                    {/* Current Product Sizes */}
+                  <div className="flex flex-col gap-5">
+                    {/* Available Sizes */}
                     <div className="w-full bg-gray-50 rounded-lg p-4 md:p-6">
-                      <h3 className="text-base  font-semibold mb-3 font-inter tracking-tight">
+                      <h3 className="text-base font-semibold mb-3 font-inter tracking-tight">
                         Available Sizes
                       </h3>
                       <div className="flex flex-wrap gap-2">
@@ -545,29 +564,27 @@ const SizeSelector = ({
                         })}
                       </div>
                     </div>
-                    {/* Size Guide Tips */}
+
+                    {/* How to Measure */}
                     <div className="w-full bg-gray-50 rounded-lg p-4 md:p-6">
-                      <h3 className="text-base font-inter tracking-tight  font-semibold mb-3">
+                      <h3 className="text-base font-inter tracking-tight font-semibold mb-3">
                         How to Measure
                       </h3>
                       <ul className="text-sm text-gray-600 space-y-2">
-                        <li>
-                          • Use a soft measuring tape for accurate measurements
-                        </li>
+                        <li>• Use a soft measuring tape for accurate measurements</li>
                         <li>• Measure over light clothing for best results</li>
                         <li>• Keep the tape snug but not tight</li>
                         <li>• Refer to the chart for specific measurements</li>
                       </ul>
                     </div>
 
-                    {/* Additional sizing info */}
+                    {/* Need Help */}
                     <div className="w-full bg-blue-50 rounded-lg p-4 md:p-6">
-                      <h3 className="text-base  font-semibold mb-2 text-blue-900 tracking-tight font-inter">
+                      <h3 className="text-base font-semibold mb-2 text-blue-900 tracking-tight font-inter">
                         Need Help?
                       </h3>
                       <p className="text-sm text-blue-800">
-                        If you&apos;re between sizes, we recommend sizing up for
-                        a more comfortable fit.{" "}
+                        If you&apos;re between sizes, we recommend sizing up for a more comfortable fit.{" "}
                         <a
                           href="https://wa.me/919166668224"
                           target="_blank"
@@ -583,7 +600,7 @@ const SizeSelector = ({
                 </div>
               </div>
 
-              {/* Modal Footer - FIXED at bottom */}
+              {/* Modal Footer */}
               <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
                 <div className="flex justify-end">
                   <Button
