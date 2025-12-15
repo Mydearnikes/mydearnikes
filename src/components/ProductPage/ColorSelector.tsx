@@ -128,7 +128,7 @@ const ColorSelector = ({
   // Extract available colors
   const extractColors = () => {
     if (!product.variants || product.variants.length === 0) {
-      return ["Default"];
+      return [];
     }
 
     const hasColorVariants = product.variants.some((variant) =>
@@ -140,7 +140,7 @@ const ColorSelector = ({
     );
 
     if (!hasColorVariants) {
-      return ["Default"];
+      return [];
     }
 
     const colors = product.variants
@@ -156,10 +156,15 @@ const ColorSelector = ({
       .filter((color): color is string => color !== undefined)
       .filter((color, index, arr) => arr.indexOf(color) === index);
 
-    return colors.length > 0 ? colors : ["Default"];
+    return colors;
   };
 
   const colors = extractColors();
+
+  // Don't render anything if no colors exist
+  if (colors.length === 0) {
+    return null;
+  }
 
   return (
     <div className="mt-6 px-2">
@@ -181,7 +186,7 @@ const ColorSelector = ({
                 ${
                   isSelected
                     ? "border-black bg-black text-white"
-                    : "border-2 border-gray-300 bg-white text-gray-700 hover:border-gray-400"
+                    : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
                 }
               `}
             >

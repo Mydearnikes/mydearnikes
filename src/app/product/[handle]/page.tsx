@@ -307,7 +307,9 @@ export default function ProductPage({ params }: ProductPageProps) {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="w-full lg:w-[50%] h-[50vh] md:h-[110vh] lg:h-[93vh]"
         >
-          <ImageCarousel product={product} />
+          {/* <ImageCarousel product={product} />
+           */}
+           <ImageCarousel product={product} selectedColor={selectedColor} />
         </motion.div>
 
         {/* Product Info - Animated */}
