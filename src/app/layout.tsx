@@ -11,6 +11,7 @@ import "./globals.css";
 import Header from "@/components/basics/Header";
 import Footer from "@/components/basics/Footer";
 import Image from "next/image";
+import SmoothScroll from "@/lib/SmoothScroll";
 
 // ... (keep all your font and metadata config)
 
@@ -226,6 +227,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={`${inter.variable} ${bebasNeue.variable} ${ispire.variable}`}
       >
+        <SmoothScroll/>
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
           <Header />
