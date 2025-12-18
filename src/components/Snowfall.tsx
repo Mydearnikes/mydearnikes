@@ -6,7 +6,7 @@ import Snowfall from 'react-snowfall'
 export default function SnowfallEffect() {
   return (
     <Snowfall
-      snowflakeCount={200}
+      snowflakeCount={100}
       speed={[0.5, 1.5]}
       wind={[-0.5, 0.5]}
       radius={[0.5, 2.5]}
