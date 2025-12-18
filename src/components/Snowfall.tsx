@@ -10,7 +10,7 @@ export default function SnowfallEffect() {
       speed={[0.5, 1.5]}
       wind={[-0.5, 0.5]}
       radius={[0.5, 2.5]}
-        color="#b0e0e6"
+      color="#a8d8ea" // Soft blue color
       style={{
         position: 'fixed',
         width: '100vw',
