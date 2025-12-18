@@ -1,3 +1,4 @@
+
 // app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
@@ -12,7 +13,8 @@ import Header from "@/components/basics/Header";
 import Footer from "@/components/basics/Footer";
 import Image from "next/image";
 import SmoothScroll from "@/lib/SmoothScroll";
-
+import Snowfall from "react-snowfall";
+import SnowfallEffect from "@/components/Snowfall";
 // ... (keep all your font and metadata config)
 
 const inter = Inter({
@@ -228,8 +230,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={`${inter.variable} ${bebasNeue.variable} ${ispire.variable}`}
       >
         <SmoothScroll />
+        <SnowfallEffect/>
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
+
           <Header />
 
           <main id="main-content" className="flex-1">
