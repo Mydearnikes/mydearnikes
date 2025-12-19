@@ -108,7 +108,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className={`fixed top-0 right-0 ${
-              items.length === 0 ? "h-screen" : "h-[100vh]"
+              items.length === 0 ? "h-screen" : "h-[90vh]"
             } w-full max-w-md bg-white shadow-2xl z-50`}
           >
             {/* Header */}
