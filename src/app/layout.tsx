@@ -15,6 +15,7 @@ import Image from "next/image";
 import SmoothScroll from "@/lib/SmoothScroll";
 import Snowfall from "react-snowfall";
 import SnowfallEffect from "@/components/Snowfall";
+import ScrollToTop from "@/components/ScrollToTop";
 // ... (keep all your font and metadata config)
 
 const inter = Inter({
@@ -230,6 +231,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={`${inter.variable} ${bebasNeue.variable} ${ispire.variable}`}
       >
         <SmoothScroll />
+        <ScrollToTop/>
         <SnowfallEffect/>
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
