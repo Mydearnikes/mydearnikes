@@ -84,7 +84,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     //   slug: "regular-fits",
     // },
     { name: "Baby Tees", href: "/category/baby-tees", slug: "baby-tees" },
-    { name: "Hoodies & Sweats", href: "/category/hoodies", slug: "hoodies" },
+    { name: "Hoodies", href: "/category/hoodies", slug: "hoodies" },
     { name: "Lighters", href: "/category/lighters", slug: "lighters" },
 
     {

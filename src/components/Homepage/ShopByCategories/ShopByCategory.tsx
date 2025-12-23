@@ -27,15 +27,15 @@ const ShopByCategory = () => {
       title: "Tumblers"
     },
     {
-      href: "/category/oversized-unisex-tees",
+      href: "/category/tees",
       image: "/images/over.webp",
-      title: "Oversized Tees"
+      title: " Tees"
     },
-    {
-      href: "/category/regular-fits",
-      image: "/images/fitted.webp",
-      title: "Fitted Tees"
-    },
+    // {
+    //   href: "/category/regular-fits",
+    //   image: "/images/fitted.webp",
+    //   title: "Fitted Tees"
+    // },
     {
       href: "/category/baby-tees",
       image: "/images/babyTeeco.webp",
