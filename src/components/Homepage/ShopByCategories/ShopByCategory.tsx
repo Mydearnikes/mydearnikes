@@ -17,20 +17,16 @@ const ShopByCategory = () => {
 
   const categories = [
     {
-      href: "/category/lighters",
-      image: "/images/lighters.webp",
-      title: "Lighters"
-    },
-    {
-      href: "/category/tumbler-bottles",
-      image: "/images/tumbler.webp",
-      title: "Tumblers"
-    },
-    {
       href: "/category/tees",
       image: "/images/over.webp",
-      title: " Tees"
+      title: " Tees",
     },
+    {
+      href: "/category/lighters",
+      image: "/images/lighters.webp",
+      title: "Lighters",
+    },
+
     // {
     //   href: "/category/regular-fits",
     //   image: "/images/fitted.webp",
@@ -39,27 +35,32 @@ const ShopByCategory = () => {
     {
       href: "/category/baby-tees",
       image: "/images/babyTeeco.webp",
-      title: "Baby Tees"
+      title: "Baby Tees",
     },
     {
       href: "/category/hoodies",
       image: "/images/hoodieCover.webp",
-      title: "Hoodies"
+      title: "Hoodies",
     },
     {
       href: "/category/all-products",
       image: "/images/allCover.webp",
-      title: "All Products"
-    }
+      title: "All Products",
+    },
+    {
+      href: "/category/tumbler-bottles",
+      image: "/images/tumbler.webp",
+      title: "Tumblers",
+    },
   ];
 
   // DON'T preload all images - only first 2 visible ones
   useEffect(() => {
     // Only preload first 2 category images (visible on load)
-    categories.slice(0, 2).forEach(category => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
+    categories.slice(0, 2).forEach((category) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
       link.href = category.image;
       document.head.appendChild(link);
     });
@@ -68,7 +69,8 @@ const ShopByCategory = () => {
   // Check scroll position to show/hide buttons
   const checkScroll = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
     }
@@ -78,34 +80,37 @@ const ShopByCategory = () => {
     checkScroll();
     const container = scrollContainerRef.current;
     if (container) {
-      container.addEventListener('scroll', checkScroll);
-      return () => container.removeEventListener('scroll', checkScroll);
+      container.addEventListener("scroll", checkScroll);
+      return () => container.removeEventListener("scroll", checkScroll);
     }
   }, []);
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
       const scrollAmount = 500;
-      const newScrollLeft = direction === 'left' 
-        ? scrollContainerRef.current.scrollLeft - scrollAmount
-        : scrollContainerRef.current.scrollLeft + scrollAmount;
-      
+      const newScrollLeft =
+        direction === "left"
+          ? scrollContainerRef.current.scrollLeft - scrollAmount
+          : scrollContainerRef.current.scrollLeft + scrollAmount;
+
       scrollContainerRef.current.scrollTo({
         left: newScrollLeft,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
 
   return (
     <>
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
         className="heading px-[8px] py-4 lg:py-8 border-t-[0.5px] border-b-[0.25px] border-[#aeadad]"
       >
-        <h1 className="uppercase text-2xl lg:text-4xl font-medium">Explore Mydearnikes</h1>
+        <h1 className="uppercase text-2xl lg:text-4xl font-medium">
+          Explore Mydearnikes
+        </h1>
       </motion.div>
 
       {/* Categories with scroll buttons */}
@@ -113,7 +118,7 @@ const ShopByCategory = () => {
         {/* Left scroll button - Desktop only */}
         {canScrollLeft && (
           <button
-            onClick={() => scroll('left')}
+            onClick={() => scroll("left")}
             className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/30 backdrop-blur-sm hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300 border border-gray-900 items-center justify-center group"
             aria-label="Scroll left"
           >
@@ -124,7 +129,7 @@ const ShopByCategory = () => {
         {/* Right scroll button - Desktop only */}
         {canScrollRight && (
           <button
-            onClick={() => scroll('right')}
+            onClick={() => scroll("right")}
             className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/30 backdrop-blur-sm hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300 border border-gray-900 items-center justify-center group"
             aria-label="Scroll right"
           >
@@ -132,15 +137,15 @@ const ShopByCategory = () => {
           </button>
         )}
 
-        <div 
+        <div
           ref={(node) => {
             ref(node);
             scrollContainerRef.current = node;
           }}
           className="categoriesSwiper overflow-x-auto w-full scrollbar-hide"
-          style={{ 
-            scrollBehavior: 'smooth',
-            WebkitOverflowScrolling: 'touch'
+          style={{
+            scrollBehavior: "smooth",
+            WebkitOverflowScrolling: "touch",
           }}
         >
           <div className="flex gap-[1px] min-w-max">
@@ -152,10 +157,15 @@ const ShopByCategory = () => {
                 transition={{
                   duration: 0.6,
                   delay: inView ? index * 0.1 : 0,
-                  ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number]
+                  ease: [0.25, 0.46, 0.45, 0.94] as [
+                    number,
+                    number,
+                    number,
+                    number
+                  ],
                 }}
               >
-                <Link 
+                <Link
                   href={category.href}
                   className="category bg-gray-100 w-[300px] lg:w-[500px] h-[450px] lg:h-[700px] flex justify-center items-end group relative overflow-hidden"
                 >
@@ -169,10 +179,10 @@ const ShopByCategory = () => {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     loading={index < 2 ? "eager" : "lazy"}
                   />
-                  
+
                   {/* Hover overlay */}
                   <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-0"></div>
-                  
+
                   {/* Category title */}
                   <div className="shopText font-inter text-sm tracking-tight text-white mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300 border-[0.125px] border-[#aeadad] bg-black px-3 py-2 rounded-full">
                     {category.title}
