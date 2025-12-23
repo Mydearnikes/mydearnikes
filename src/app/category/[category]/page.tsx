@@ -74,20 +74,24 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       slug: "new-arrivals",
     },
     {
-      name: "Oversized Tees",
+      name: "Tees",
       href: "/category/oversized-unisex-tees",
       slug: "oversized-unisex-tees",
     },
-    {
-      name: "Fitted Tees",
-      href: "/category/regular-fits",
-      slug: "regular-fits",
-    },
+    // {
+    //   name: "Fitted Tees",
+    //   href: "/category/regular-fits",
+    //   slug: "regular-fits",
+    // },
     { name: "Baby Tees", href: "/category/baby-tees", slug: "baby-tees" },
     { name: "Hoodies & Sweats", href: "/category/hoodies", slug: "hoodies" },
     { name: "Lighters", href: "/category/lighters", slug: "lighters" },
 
-    { name: "Tumblers", href: "/category/tumbler-bottles", slug: "tumbler-bottles" },
+    {
+      name: "Tumblers",
+      href: "/category/tumbler-bottles",
+      slug: "tumbler-bottles",
+    },
 
     // { name: "Sweatpants", href: "/category/sweatpants", slug: "sweatpants" },
   ];

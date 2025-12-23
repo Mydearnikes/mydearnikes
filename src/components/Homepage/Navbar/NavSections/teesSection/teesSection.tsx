@@ -10,7 +10,7 @@ interface TeesComponentProps {
 const TeesComponent: React.FC<TeesComponentProps> = ({ onClose }) => {
   const teeCategories = [
     { name: "Oversized Tees", href: "/category/oversized-unisex-tees" },
-    { name: "Fitted Tees", href: "/category/regular-fits" },
+    // { name: "Fitted Tees", href: "/category/regular-fits" },
     { name: "Baby Tees", href: "/category/baby-tees" },
   ];
 
