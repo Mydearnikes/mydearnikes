@@ -61,6 +61,60 @@
 
 // export default ProductInfo;
 
+// import React from "react";
+// import { ShopifyMoney, SimpleProduct, ProductVariant } from "@/types/shopify";
+
+// interface ProductInfoProps {
+//   product: SimpleProduct;
+//   selectedVariant?: ProductVariant | null;
+// }
+
+// const ProductInfo = ({ product }: ProductInfoProps) => {
+//   // format the price
+//   const formatPrice = (money: ShopifyMoney) => {
+//     return new Intl.NumberFormat("en-IN", {
+//       style: "currency",
+//       currency: "INR",
+//     }).format(parseFloat(money.amount));
+//   };
+
+//   // Helper check for discount
+//   const hasDiscount =
+//     product.compareAtPrice &&
+//     parseFloat(product.compareAtPrice.amount) >
+//       parseFloat(product.price.amount);
+
+//   return (
+//     <>
+//       <div className="flex justify-between items-center px-[8px] py-1 mt-0">
+//         <div className="productName uppercase font-bold text-md tracking-tight">
+//           {product.title}
+//         </div>
+//         <div className="productPrice text-sm">
+//           {formatPrice(product.price)}
+//           {hasDiscount && (
+//             <span className="text-xs text-gray-500 line-through ml-2">
+//               {formatPrice(product.compareAtPrice!)}
+//             </span>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* Mobile description - raw from Shopify */}
+//       <div className="description text-[12px] px-[8px] py-1 lg:hidden whitespace-pre-wrap">
+//         {product.description}
+//       </div>
+
+//       {/* Desktop description - raw from Shopify */}
+//       <div className="description text-[12px] px-[8px] hidden lg:block whitespace-pre-wrap">
+//         {product.description}
+//       </div>
+//     </>
+//   );
+// };
+
+// export default ProductInfo;
+
 import React from "react";
 import { ShopifyMoney, SimpleProduct, ProductVariant } from "@/types/shopify";
 
@@ -101,13 +155,21 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       </div>
 
       {/* Mobile description - raw from Shopify */}
-      <div className="description text-[12px] px-[8px] py-1 lg:hidden whitespace-pre-wrap">
-        {product.description}
+      <div className="description text-[12px] px-[8px] py-1 lg:hidden">
+        {product.descriptionHtml ? (
+          <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+        ) : (
+          <div className="whitespace-pre-wrap">{product.description}</div>
+        )}
       </div>
 
       {/* Desktop description - raw from Shopify */}
-      <div className="description text-[12px] px-[8px] hidden lg:block whitespace-pre-wrap">
-        {product.description}
+      <div className="description text-[12px] px-[8px] hidden lg:block">
+        {product.descriptionHtml ? (
+          <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+        ) : (
+          <div className="whitespace-pre-wrap">{product.description}</div>
+        )}
       </div>
     </>
   );

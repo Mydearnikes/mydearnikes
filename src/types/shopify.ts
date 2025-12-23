@@ -115,11 +115,28 @@ export interface ShopifyCollectionsResponse {
 }
 
 // Simplified Types for Components (easier to work with)
+// export interface SimpleProduct {
+//   id: string;
+//   title: string;
+//   handle: string;
+//   description: string;
+//   images: ShopifyImage[];
+//   variants: ProductVariant[];
+//   price: ShopifyMoney;
+//   compareAtPrice?: ShopifyMoney;
+//   availableForSale: boolean;
+//   tags: string[];
+//   productType: string;
+//   vendor: string;
+//   featuredImage?: ShopifyImage;
+// }
+
 export interface SimpleProduct {
   id: string;
   title: string;
   handle: string;
   description: string;
+  descriptionHtml?: string; // Optional HTML-formatted description
   images: ShopifyImage[];
   variants: ProductVariant[];
   price: ShopifyMoney;

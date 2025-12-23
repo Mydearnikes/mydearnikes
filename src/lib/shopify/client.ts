@@ -46,12 +46,34 @@ async function shopifyFetch<T>({
 }
 
 // Helper function to transform shopify product into simple product
+// function transformProduct(product: Product): SimpleProduct {
+//   return {
+//     id: product.id,
+//     title: product.title,
+//     handle: product.handle,
+//     description: product.description,
+//     images: product.images.edges.map((edge) => edge.node),
+//     variants: product.variants.edges.map((edge) => edge.node),
+//     price: product.priceRange.minVariantPrice,
+//     compareAtPrice:
+//       product.compareAtPriceRange.minVariantPrice.amount !== "0.0"
+//         ? product.compareAtPriceRange.minVariantPrice
+//         : undefined,
+//     availableForSale: product.availableForSale,
+//     tags: product.tags,
+//     productType: product.productType,
+//     vendor: product.vendor,
+//     featuredImage: product.featuredImage,
+//   };
+// }
+
 function transformProduct(product: Product): SimpleProduct {
   return {
     id: product.id,
     title: product.title,
     handle: product.handle,
     description: product.description,
+    descriptionHtml: product.descriptionHtml || undefined, // Map descriptionHtml, use undefined if empty
     images: product.images.edges.map((edge) => edge.node),
     variants: product.variants.edges.map((edge) => edge.node),
     price: product.priceRange.minVariantPrice,
@@ -717,6 +739,7 @@ const SEARCH_PRODUCTS_QUERY = `
           title
           handle
           description
+          descriptionHtml
           availableForSale
           featuredImage {
             id
@@ -756,6 +779,7 @@ export async function searchProducts(query: string, first: number = 10): Promise
       title: edge.node.title,
       handle: edge.node.handle,
       description: edge.node.description,
+      descriptionHtml: edge.node.descriptionHtml || undefined, // Add this line
       images: edge.node.featuredImage ? [edge.node.featuredImage] : [],
       variants: [],
       price: edge.node.priceRange.minVariantPrice,
