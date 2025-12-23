@@ -197,14 +197,14 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           {collection?.title || category.replace("-", " ")}
         </motion.div>
 
-        <motion.p
+        {/* <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-gray-600 max-w-2xl text-xs font-medium uppercase mt-2"
         >
           Core This, Core That, Just Wear It.
-        </motion.p>
+        </motion.p> */}
 
         {/* Category Navigation Menu with Sort */}
         <motion.nav
