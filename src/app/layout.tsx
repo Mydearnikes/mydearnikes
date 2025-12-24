@@ -236,7 +236,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <SnowfallEffect/>
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
-          <ChristmasMarquee/>
+          {/* <ChristmasMarquee/> */}
 
           <Header />
 
