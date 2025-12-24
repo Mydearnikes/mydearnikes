@@ -91,7 +91,7 @@ export default function ImageCarousel({ product, selectedColor }: ImageCarouselP
       initial={{ opacity: 0, scale: 0.95 }}
       animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="relative mb-2"
+      className="relative mb-2 my-3 "
     >
       <Swiper
         modules={[Autoplay]}
