@@ -252,7 +252,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                     className="flex-shrink-0 bg-white border-t"
                   >
                     {/* Discount Code Section */}
-                    <div className="p-4 border-b border-gray-100">
+                    {/* <div className="p-4 border-b border-gray-100">
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -270,7 +270,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                           APPLY
                         </Button>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Cart Summary */}
                     <div className="p-4 bg-gray-50 lg:mb-3 mb-5">

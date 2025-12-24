@@ -1,5 +1,3 @@
-
-
 // "use client";
 // import React, { useState } from "react";
 // import { useRouter } from "next/navigation";
@@ -54,7 +52,7 @@
 //       setActive(null);
 //       router.push("/category/tumbler-bottles");
 //     }
-   
+
 //     else if (key === "search") {
 //       setActive("search");
 //     } else {
@@ -142,8 +140,8 @@
 //                     key={key}
 //                     initial={{ opacity: 0, y: -10 }}
 //                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ 
-//                       duration: 0.4, 
+//                     transition={{
+//                       duration: 0.4,
 //                       delay: 0.2 + (index * 0.1),
 //                       ease: "easeOut"
 //                     }}
@@ -199,9 +197,7 @@
 
 // export default Header;
 
-
 // ######################################################################################################
-
 
 "use client";
 import React, { useState } from "react";
@@ -221,23 +217,25 @@ const Header = () => {
 
   const openCart = () => setCartOpen(true);
   const closeCart = () => setCartOpen(false);
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => {
     setMenuOpen(false);
     setSearchOpen(false);
   };
+
   const toggleSearch = () => setSearchOpen((prev) => !prev);
   const closeSearch = () => setSearchOpen(false);
 
   // Prevent body scroll when menu is open
   React.useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [menuOpen]);
 
@@ -256,23 +254,54 @@ const Header = () => {
     { number: "02", label: "All Products", path: "/category/all-products" },
     { number: "03", label: "New In", path: "/category/new-arrivals" },
     { number: "04", label: "Tees", path: "/category/tees" },
-    // { number: "05", label: "Oversized Tees", path: "/category/oversized-tees" },
     { number: "06", label: "Baby Tees", path: "/category/baby-tees" },
     { number: "07", label: "Hoodies", path: "/category/hoodies" },
-    // { number: "08", label: "Sweatpants", path: "/category/sweatpants" },
     { number: "09", label: "Lighters", path: "/category/lighters" },
     { number: "10", label: "Tumblers", path: "/category/tumbler-bottles" },
   ];
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b-[0.5px] border-[#aeadad]">
+      {/* Christmas Marquee */}
+      <div className="fixed top-0 left-0 right-0  w-full bg-black text-white overflow-hidden h-10 flex items-center border-b border-gray-800">
+        <div className="whitespace-nowrap flex items-center animate-scroll uppercase">
+          <span className="mx-8 text-sm font-medium">
+            🎄 Christmas Week Special: 10% OFF • Use code{" "}
+            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+          </span>
+          <span className="mx-8 text-sm font-medium">
+            🎄 Christmas Week Special: 10% OFF • Use code{" "}
+            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+          </span>
+          <span className="mx-8 text-sm font-medium">
+            🎄 Christmas Week Special: 10% OFF • Use code{" "}
+            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+          </span>
+          <span className="mx-8 text-sm font-medium">
+            🎄 Christmas Week Special: 10% OFF • Use code{" "}
+            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+          </span>
+          <span className="mx-8 text-sm font-medium">
+            🎄 Christmas Week Special: 10% OFF • Use code{" "}
+            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+          </span>
+          <span className="mx-8 text-sm font-medium">
+            🎄 Christmas Week Special: 10% OFF • Use code{" "}
+            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+          </span>
+        </div>
+      </div>
+
+      {/* Main Header - positioned below marquee */}
+      <header className="fixed top-10 left-0 right-0 z-50 bg-white border-b-[0.5px] border-[#aeadad]">
         <div className="flex justify-between items-center py-3 px-[8px]">
           <Button
             variant="outline"
             onClick={toggleMenu}
             className={`rounded-full text-white ${
-              menuOpen ? "bg-black text-white border-none" : "bg-white text-black"
+              menuOpen
+                ? "bg-black text-white border-none"
+                : "bg-white text-black"
             }`}
           >
             {menuOpen ? "Close" : "Menu"}
@@ -335,15 +364,13 @@ const Header = () => {
                   Close
                 </Button>
 
-                <div className="logo font-ispire text-2xl">
-                  MYDEARNIKES
-                </div>
+                <div className="logo font-ispire text-2xl">MYDEARNIKES</div>
 
                 <Button
                   variant="outline"
                   className={`rounded-full transition-all ${
-                    searchOpen 
-                      ? "bg-black text-white border-none" 
+                    searchOpen
+                      ? "bg-black text-white border-none"
                       : "hover:bg-black hover:text-white"
                   }`}
                   onClick={toggleSearch}
@@ -384,19 +411,19 @@ const Header = () => {
                             key={item.number}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.05 + index * 0.03, duration: 0.4 }}
+                            transition={{
+                              delay: 0.05 + index * 0.03,
+                              duration: 0.4,
+                            }}
                           >
                             <button
                               onClick={() => handleNavigation(item.path)}
                               className="w-full group bg-white border-b border-[#aeadad] hover:border-black transition-all overflow-hidden"
                             >
-                              <div className="flex justify-between items-center py-4   px-[8px] lg:px-2">
+                              <div className="flex justify-between items-center py-4 px-[8px] lg:px-2">
                                 <span className="text-xl md:text-2xl font-medium font-inter text-black group-hover:text-black transition-colors">
                                   {item.label}
                                 </span>
-                                {/* <span className="text-sm md:text-base font-light text-gray-400 group-hover:text-black transition-colors">
-                                  {item.number}
-                                </span> */}
                               </div>
                             </button>
                           </motion.div>
@@ -411,7 +438,9 @@ const Header = () => {
                         className="flex-shrink-0 py-4 px-4 lg:px-6 border-t border-black/10 bg-white"
                       >
                         <div>
-                          <h3 className="text-gray-500 text-xs tracking-wider mb-2">(Information)</h3>
+                          <h3 className="text-gray-500 text-xs tracking-wider mb-2">
+                            (Information)
+                          </h3>
                           <div className="flex gap-4 text-xs">
                             <button
                               onClick={() => handleNavigation("/about")}
@@ -444,6 +473,22 @@ const Header = () => {
       </AnimatePresence>
 
       <CartDrawer isOpen={cartOpen} onClose={closeCart} />
+
+      {/* Global styles for marquee animation */}
+      <style jsx global>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-scroll {
+          animation: scroll 25s linear infinite;
+        }
+      `}</style>
     </>
   );
 };

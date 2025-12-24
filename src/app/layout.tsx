@@ -16,6 +16,7 @@ import SmoothScroll from "@/lib/SmoothScroll";
 import Snowfall from "react-snowfall";
 import SnowfallEffect from "@/components/Snowfall";
 import ScrollToTop from "@/components/ScrollToTop";
+import ChristmasMarquee from "@/components/ChristmasMarquee";
 // ... (keep all your font and metadata config)
 
 const inter = Inter({
@@ -235,6 +236,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <SnowfallEffect/>
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
+          <ChristmasMarquee/>
 
           <Header />
 
