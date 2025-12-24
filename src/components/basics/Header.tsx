@@ -394,9 +394,9 @@ const Header = () => {
                                 <span className="text-xl md:text-2xl font-medium font-inter text-black group-hover:text-black transition-colors">
                                   {item.label}
                                 </span>
-                                <span className="text-sm md:text-base font-light text-gray-400 group-hover:text-black transition-colors">
+                                {/* <span className="text-sm md:text-base font-light text-gray-400 group-hover:text-black transition-colors">
                                   {item.number}
-                                </span>
+                                </span> */}
                               </div>
                             </button>
                           </motion.div>
