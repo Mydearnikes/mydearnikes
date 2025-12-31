@@ -263,39 +263,11 @@ const Header = () => {
 
   return (
     <>
-      {/* Christmas Marquee */}
-      {/* <div className="fixed top-0 left-0 right-0  w-full bg-black text-white overflow-hidden h-10 flex items-center border-b border-gray-800">
-        <div className="whitespace-nowrap flex items-center animate-scroll uppercase">
-          <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
-          </span>
-          <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
-          </span>
-          <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
-          </span>
-          <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
-          </span>
-          <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
-          </span>
-          <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
-          </span>
-        </div>
-      </div> */}
+
 
       {/* Main Header - positioned below marquee */}
       <header className="fixed  left-0 right-0 z-50 bg-white border-b-[0.5px] border-[#aeadad]">
-        <ChristmasMarquee />
+        {/* <ChristmasMarquee /> */}
         <div className="flex justify-between items-center py-3 px-[8px]">
           <Button
             variant="outline"
