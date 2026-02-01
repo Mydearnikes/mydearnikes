@@ -45,27 +45,7 @@ async function shopifyFetch<T>({
   return data;
 }
 
-// Helper function to transform shopify product into simple product
-// function transformProduct(product: Product): SimpleProduct {
-//   return {
-//     id: product.id,
-//     title: product.title,
-//     handle: product.handle,
-//     description: product.description,
-//     images: product.images.edges.map((edge) => edge.node),
-//     variants: product.variants.edges.map((edge) => edge.node),
-//     price: product.priceRange.minVariantPrice,
-//     compareAtPrice:
-//       product.compareAtPriceRange.minVariantPrice.amount !== "0.0"
-//         ? product.compareAtPriceRange.minVariantPrice
-//         : undefined,
-//     availableForSale: product.availableForSale,
-//     tags: product.tags,
-//     productType: product.productType,
-//     vendor: product.vendor,
-//     featuredImage: product.featuredImage,
-//   };
-// }
+
 
 function transformProduct(product: Product): SimpleProduct {
   return {
@@ -89,19 +69,7 @@ function transformProduct(product: Product): SimpleProduct {
   };
 }
 
-// Helper function to transform shopify collection to simple collection
-// function transformCollection(collection: Collection): SimpleCollection {
-//   return {
-//     id: collection.id,
-//     title: collection.title,
-//     handle: collection.handle,
-//     description: collection.description,
-//     image: collection.image,
-//     products: collection.products.edges.map((edge) =>
-//       transformProduct(edge.node)
-//     ),
-//   };
-// }
+
 
 // UPDATED: Collections query (collections are always published if accessible via Storefront API)
 const GET_COLLECTIONS_QUERY = `

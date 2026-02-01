@@ -1,4 +1,4 @@
-
+// talk to api - send user to checkout - redirect 
 
 import { CartItem } from "@/store/cartStore";
 

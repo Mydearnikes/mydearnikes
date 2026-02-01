@@ -233,7 +233,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <SmoothScroll />
         <ScrollToTop/>
-        <SnowfallEffect/>
+        {/* <SnowfallEffect/> */}
         {/* Main application structure */}
         <div className="relative flex min-h-screen flex-col">
           {/* <ChristmasMarquee/> */}
