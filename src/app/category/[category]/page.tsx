@@ -75,8 +75,8 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     },
     {
       name: "Tees",
-      href: "/category/oversized-unisex-tees",
-      slug: "oversized-unisex-tees",
+      href: "/category/tees",
+      slug: "tees",
     },
     // {
     //   name: "Fitted Tees",

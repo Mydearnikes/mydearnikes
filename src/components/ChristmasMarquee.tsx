@@ -5,28 +5,59 @@ export default function ChristmasMarquee() {
       <div className="w-full bg-black text-white overflow-hidden h-10 flex items-center border-b border-gray-800">
         <div className="whitespace-nowrap flex items-center animate-scroll uppercase">
           <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+            <span className="space-x-2">
+  <span>buy 2 get 10% off</span>
+  <span>|</span>
+  <span>buy 3 get 15% off</span>
+  <span>|</span>
+  <span>buy 4 get 20% off</span>
+</span>
           </span>
           <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+                      <span className="space-x-2">
+  <span>buy 2 get 10% off</span>
+  <span>|</span>
+  <span>buy 3 get 15% off</span>
+  <span>|</span>
+  <span>buy 4 get 20% off</span>
+</span>
+
           </span>
           <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+                       <span className="space-x-2">
+  <span>buy 2 get 10% off</span>
+  <span>|</span>
+  <span>buy 3 get 15% off</span>
+  <span>|</span>
+  <span>buy 4 get 20% off</span>
+</span>
           </span>
           <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+                        <span className="space-x-2">
+  <span>buy 2 get 10% off</span>
+  <span>|</span>
+  <span>buy 3 get 15% off</span>
+  <span>|</span>
+  <span>buy 4 get 20% off</span>
+</span>
           </span>
           <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+                        <span className="space-x-2">
+  <span>buy 2 get 10% off</span>
+  <span>|</span>
+  <span>buy 3 get 15% off</span>
+  <span>|</span>
+  <span>buy 4 get 20% off</span>
+</span>
           </span>
           <span className="mx-8 text-sm font-medium">
-            🎄 Christmas Week Special: 10% OFF • Use code{" "}
-            <span className="text-[#5fdd9d]"> "readyfor2026" </span> at checkout
+                        <span className="space-x-2">
+  <span>buy 2 get 10% off</span>
+  <span>|</span>
+  <span>buy 3 get 15% off</span>
+  <span>|</span>
+  <span>buy 4 get 20% off</span>
+</span>
           </span>
        
         </div>
