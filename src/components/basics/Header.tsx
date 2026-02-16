@@ -266,7 +266,7 @@ const Header = () => {
 
 
       {/* Main Header - positioned below marquee */}
-      <header className="fixed  left-0 right-0 z-50 bg-white border-b-[0.5px] border-[#aeadad]">
+      <header className="fixed  left-0 right-0 z-50 bg-white border-b-[0.5px] border-[#aeadad] ">
         <ChristmasMarquee />
         <div className="flex justify-between items-center py-3 px-[8px]">
           <Button

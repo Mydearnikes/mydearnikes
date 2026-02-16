@@ -317,7 +317,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          className="w-full lg:w-[30%] flex flex-col justify-between lg:h-[93vh]"
+          className="w-full lg:w-[30%] flex flex-col justify-between lg:h-[93vh] mt-10"
         >
           <div>
             <motion.div

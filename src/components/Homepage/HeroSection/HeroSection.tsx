@@ -368,7 +368,7 @@ const HeroSection = () => {
   return (
     <>
       {/* MOBILE VERSION */}
-      <div className="lg:hidden relative h-[95vh] pt-15 overflow-hidden">
+      <div className="lg:hidden relative h-[95vh] pt-15 overflow-hidden ">
         <div className="absolute inset-0 w-full h-full z-10">
           <Swiper
             modules={[Autoplay]}
@@ -435,7 +435,7 @@ const HeroSection = () => {
       </div>
 
       {/* DESKTOP VERSION */}
-      <div className="hidden lg:flex gap-[8px] pt-15">
+      <div className="hidden lg:flex gap-[8px] pt-15 ">
         {/* Left Side - Main Hero Image - NO FRAMER MOTION */}
         <div className="w-[60vw] h-[91vh] relative mt-4 mx-[8px] animate-fadeIn">
           <div className="w-full h-full relative">
