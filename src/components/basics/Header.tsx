@@ -258,7 +258,7 @@ const Header = () => {
     { number: "06", label: "Baby Tees", path: "/category/baby-tees" },
     { number: "07", label: "Hoodies", path: "/category/hoodies" },
     { number: "09", label: "Lighters", path: "/category/lighters" },
-    { number: "10", label: "Tumblers", path: "/category/tumbler-bottles" },
+    // { number: "10", label: "Tumblers", path: "/category/tumbler-bottles" },
   ];
 
   return (

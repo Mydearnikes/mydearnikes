@@ -87,11 +87,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     { name: "Hoodies", href: "/category/hoodies", slug: "hoodies" },
     { name: "Lighters", href: "/category/lighters", slug: "lighters" },
 
-    {
-      name: "Tumblers",
-      href: "/category/tumbler-bottles",
-      slug: "tumbler-bottles",
-    },
+    // {
+    //   name: "Tumblers",
+    //   href: "/category/tumbler-bottles",
+    //   slug: "tumbler-bottles",
+    // },
 
     // { name: "Sweatpants", href: "/category/sweatpants", slug: "sweatpants" },
   ];
@@ -113,11 +113,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     switch (selectedSort) {
       case "price-asc":
         return sorted.sort(
-          (a, b) => parseFloat(a.price.amount) - parseFloat(b.price.amount)
+          (a, b) => parseFloat(a.price.amount) - parseFloat(b.price.amount),
         );
       case "price-desc":
         return sorted.sort(
-          (a, b) => parseFloat(b.price.amount) - parseFloat(a.price.amount)
+          (a, b) => parseFloat(b.price.amount) - parseFloat(a.price.amount),
         );
       case "newest":
         // Reverse to show newest first (assuming products come in order from API)

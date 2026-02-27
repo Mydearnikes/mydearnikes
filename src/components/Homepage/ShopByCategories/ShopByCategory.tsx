@@ -23,7 +23,7 @@ const ShopByCategory = () => {
     },
     {
       href: "/category/lighters",
-      image: "/images/lighters.webp",
+      image: "/images/newLighterCover.webp",
       title: "Lighters",
     },
 
@@ -46,12 +46,8 @@ const ShopByCategory = () => {
       href: "/category/all-products",
       image: "/images/allCover.webp",
       title: "All Products",
-    },
-    {
-      href: "/category/tumbler-bottles",
-      image: "/images/tumbler.webp",
-      title: "Tumblers",
-    },
+    }
+   
   ];
 
   // DON'T preload all images - only first 2 visible ones
