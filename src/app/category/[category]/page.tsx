@@ -78,12 +78,21 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       href: "/category/tees",
       slug: "tees",
     },
-    // {
-    //   name: "Fitted Tees",
-    //   href: "/category/regular-fits",
-    //   slug: "regular-fits",
-    // },
-    { name: "Baby Tees", href: "/category/baby-tees", slug: "baby-tees" },
+    {
+      name: "Slim Tees",
+      href: "/category/regular-fits",
+      slug: "regular-fits",
+    },
+    {
+      name: "Full Sleeve  Tees",
+      href: "/category/full-sleeve",
+      slug: "full-sleeve",
+    },
+    {
+      name: "Cropped Baby Tees",
+      href: "/category/baby-tees",
+      slug: "baby-tees",
+    },
     { name: "Hoodies", href: "/category/hoodies", slug: "hoodies" },
     { name: "Lighters", href: "/category/lighters", slug: "lighters" },
 
