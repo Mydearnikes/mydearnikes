@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState } from "react";
@@ -26,6 +24,11 @@ const SizeSelector = ({
 }: SizeSelectorProps) => {
   const [showSizeChart, setShowSizeChart] = useState(false);
 
+  console.log(
+    "🧪 SizeSelector product.productType:",
+    JSON.stringify(product.productType),
+  );
+
   // Extract sizes from variants and track availability
   const extractSizes = () => {
     if (!product.variants || product.variants.length === 0) {
@@ -46,7 +49,7 @@ const SizeSelector = ({
 
     product.variants.forEach((variant) => {
       const sizeOption = variant.selectedOptions?.find((option) =>
-        option.name.toLowerCase().includes("size")
+        option.name.toLowerCase().includes("size"),
       );
 
       if (sizeOption) {
@@ -67,10 +70,10 @@ const SizeSelector = ({
 
     const sizes = Object.keys(sizeData);
     const availability = Object.fromEntries(
-      Object.entries(sizeData).map(([size, data]) => [size, data.available])
+      Object.entries(sizeData).map(([size, data]) => [size, data.available]),
     );
     const stockLevels = Object.fromEntries(
-      Object.entries(sizeData).map(([size, data]) => [size, data.stock])
+      Object.entries(sizeData).map(([size, data]) => [size, data.stock]),
     );
 
     return { sizes, availability, stockLevels };
@@ -81,22 +84,28 @@ const SizeSelector = ({
   const getTotalStock = () => {
     if (!product.variants || product.variants.length === 0) return null;
     if (sizes.length > 0) return null;
-    
+
     const total = product.variants.reduce((sum, variant) => {
       return sum + (variant.quantityAvailable || 0);
     }, 0);
-    
+
     return total;
   };
 
   const totalStock = getTotalStock();
-  
+
   if (sizes.length === 0) {
-    if (showStockInfo && totalStock !== null && totalStock > 0 && totalStock <= 10) {
+    if (
+      showStockInfo &&
+      totalStock !== null &&
+      totalStock > 0 &&
+      totalStock <= 10
+    ) {
       return (
         <div className="px-2 mt-3">
           <p className="text-xs text-orange-600 font-medium">
-            ⚠️ Only {totalStock} {totalStock === 1 ? "item" : "items"} left in stock!
+            ⚠️ Only {totalStock} {totalStock === 1 ? "item" : "items"} left in
+            stock!
           </p>
         </div>
       );
@@ -122,9 +131,7 @@ const SizeSelector = ({
       <div className="mt-2 px-2">
         {/* Header: Size label and tape icon */}
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-medium text-gray-900">
-            Size
-          </label>
+          <label className="text-xs font-medium text-gray-900">Size</label>
           <button
             onClick={() => setShowSizeChart(true)}
             className="hover:bg-gray-100 p-1 rounded-full transition-colors cursor-pointer"
@@ -153,8 +160,8 @@ const SizeSelector = ({
                   isSelected
                     ? "bg-black text-white border-black"
                     : isAvailable
-                    ? "bg-white text-black border-gray-200 hover:border-gray-400"
-                    : "bg-gray-300 text-gray-400 border-gray-200 cursor-not-allowed opacity-50"
+                      ? "bg-white text-black border-gray-200 hover:border-gray-400"
+                      : "bg-gray-300 text-gray-400 border-gray-200 cursor-not-allowed opacity-50"
                 }`}
                 onClick={() => handleSizeClick(size)}
                 disabled={!isAvailable}
@@ -254,7 +261,9 @@ const SizeSelector = ({
                         How to Measure
                       </h3>
                       <ul className="text-sm text-gray-600 space-y-2">
-                        <li>• Use a soft measuring tape for accurate measurements</li>
+                        <li>
+                          • Use a soft measuring tape for accurate measurements
+                        </li>
                         <li>• Measure over light clothing for best results</li>
                         <li>• Keep the tape snug but not tight</li>
                         <li>• Refer to the chart for specific measurements</li>
@@ -267,7 +276,8 @@ const SizeSelector = ({
                         Need Help?
                       </h3>
                       <p className="text-sm text-blue-800">
-                        If you&apos;re between sizes, we recommend sizing up for a more comfortable fit.{" "}
+                        If you&apos;re between sizes, we recommend sizing up for
+                        a more comfortable fit.{" "}
                         <a
                           href="https://wa.me/919166668224"
                           target="_blank"

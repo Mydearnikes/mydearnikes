@@ -58,6 +58,7 @@
     "@types/react-slick": "^0.23.13",
     "@types/shopify-buy": "^3.0.0",
     "@types/webpack-bundle-analyzer": "^4.7.0",
+    "baseline-browser-mapping": "^2.10.0",
     "eslint": "^9",
     "eslint-config-next": "^16.0.7",
     "tailwindcss": "^4",
