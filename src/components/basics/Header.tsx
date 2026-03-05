@@ -255,7 +255,7 @@ const Header = () => {
     { number: "02", label: "All Products", path: "/category/all-products" },
     { number: "03", label: "New In", path: "/category/new-arrivals" },
     { number: "04", label: "Tees", path: "/category/tees" },
-    { number: "06", label: "Baby Tees", path: "/category/baby-tees" },
+    { number: "06", label: "Baby Tees", path: "/category/baby-tees-1" },
     { number: "07", label: "Hoodies", path: "/category/hoodies" },
     { number: "09", label: "Lighters", path: "/category/lighters" },
     // { number: "10", label: "Tumblers", path: "/category/tumbler-bottles" },
@@ -263,8 +263,6 @@ const Header = () => {
 
   return (
     <>
-
-
       {/* Main Header - positioned below marquee */}
       <header className="fixed  left-0 right-0 z-50 bg-white border-b-[0.5px] border-[#aeadad] ">
         <ChristmasMarquee />

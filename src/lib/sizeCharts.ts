@@ -64,7 +64,7 @@ export const SIZE_CHARTS = {
     image: "/images/fitChart.webp",
     title: "Fitted Tees Size Guide",
   },
-  "cropped-baby-tees": {
+  "baby-tees": {
     image: "/images/newBabyChart.webp",
     title: "Baby Tees Size Guide",
   },
@@ -147,7 +147,7 @@ export const getSizeChartByProductType = (
   if (normalized.includes("oversized")) return SIZE_CHARTS["oversized"];
   if (normalized.includes("croppedbaby") || normalized.includes("cropped baby"))
     return SIZE_CHARTS["cropped-baby-tees"];
-  if (normalized.includes("baby")) return SIZE_CHARTS["cropped-baby-tees"];
+  if (normalized.includes("baby")) return SIZE_CHARTS["baby-tees"];
   if (normalized.includes("terry")) return SIZE_CHARTS.terry;
   if (
     normalized.includes("fullsleeve") ||

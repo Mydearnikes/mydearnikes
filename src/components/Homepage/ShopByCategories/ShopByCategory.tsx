@@ -33,7 +33,7 @@ const ShopByCategory = () => {
     //   title: "Fitted Tees"
     // },
     {
-      href: "/category/baby-tees",
+      href: "/category/baby-tees-1",
       image: "/images/babyTeeco.webp",
       title: "Baby Tees",
     },
@@ -46,8 +46,7 @@ const ShopByCategory = () => {
       href: "/category/all-products",
       image: "/images/allCover.webp",
       title: "All Products",
-    }
-   
+    },
   ];
 
   // DON'T preload all images - only first 2 visible ones
@@ -157,7 +156,7 @@ const ShopByCategory = () => {
                     number,
                     number,
                     number,
-                    number
+                    number,
                   ],
                 }}
               >

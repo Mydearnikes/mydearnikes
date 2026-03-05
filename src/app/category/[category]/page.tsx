@@ -89,9 +89,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       slug: "full-sleeve",
     },
     {
-      name: "Cropped Baby Tees",
+      name: "Baby Tees",
       href: "/category/baby-tees",
-      slug: "baby-tees",
+      slug: "baby-tees-1",
     },
     { name: "Hoodies", href: "/category/hoodies", slug: "hoodies" },
     { name: "Lighters", href: "/category/lighters", slug: "lighters" },
