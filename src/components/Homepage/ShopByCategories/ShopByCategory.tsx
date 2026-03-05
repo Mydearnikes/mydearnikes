@@ -23,7 +23,7 @@ const ShopByCategory = () => {
     },
     {
       href: "/category/lighters",
-      image: "/images/newLighterCover.webp",
+      image: "/images/lighters.webp",
       title: "Lighters",
     },
 
