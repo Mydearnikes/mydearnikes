@@ -33,7 +33,7 @@ const ShopByCategory = () => {
     //   title: "Fitted Tees"
     // },
     {
-      href: "/category/baby-tees-1",
+      href: "/category/baby-tees",
       image: "/images/newBabyCover.webp",
       title: "Baby Tees",
     },
