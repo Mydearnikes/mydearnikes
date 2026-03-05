@@ -146,7 +146,7 @@ export const getSizeChartByProductType = (
 
   if (normalized.includes("oversized")) return SIZE_CHARTS["oversized"];
   if (normalized.includes("croppedbaby") || normalized.includes("cropped baby"))
-    return SIZE_CHARTS["cropped-baby-tees"];
+    return SIZE_CHARTS["baby-tees"];
   if (normalized.includes("baby")) return SIZE_CHARTS["baby-tees"];
   if (normalized.includes("terry")) return SIZE_CHARTS.terry;
   if (

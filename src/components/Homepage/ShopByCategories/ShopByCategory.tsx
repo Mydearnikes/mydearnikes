@@ -34,7 +34,7 @@ const ShopByCategory = () => {
     // },
     {
       href: "/category/baby-tees-1",
-      image: "/images/babyTeeco.webp",
+      image: "/images/newBabyCover.webp",
       title: "Baby Tees",
     },
     {
