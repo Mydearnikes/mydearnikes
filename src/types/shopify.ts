@@ -78,6 +78,10 @@ export interface Collection {
   descriptionHtml: string;
   image?: ShopifyImage;
   products: {
+    pageInfo: {
+      hasNextPage: boolean;
+      endCursor: string;
+    };
     edges: Array<{
       node: Product;
     }>;

@@ -1,21 +1,799 @@
+// import {
+//   Product,
+//   // Collection,
+//   SimpleProduct,
+//   SimpleCollection,
+//   ShopifyProductResponse,
+//   ShopifyProductsResponse,
+//   ShopifyCollectionResponse,
+//   ShopifyCollectionsResponse,
+//   // ProductVariables,
+//   // CollectionVariables,
+// } from "@/types/shopify";
+
+// const endpoint = process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL!;
+// const storefrontAccessToken =
+//   process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
+
+// // Main fetch function
+// async function shopifyFetch<T>({
+//   query,
+//   variables = {},
+// }: {
+//   query: string;
+//   variables?: unknown;
+// }): Promise<T> {
+//   const response = await fetch(endpoint, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
+//     },
+//     body: JSON.stringify({ query, variables }),
+//   });
+
+//   if (!response.ok) {
+//     throw new Error(`Shopify API Error: ${response.status}`);
+//   }
+
+//   const { data, errors } = await response.json();
+
+//   if (errors) {
+//     throw new Error(`Graphql errors:${JSON.stringify(errors)}`);
+//   }
+
+//   return data;
+// }
+
+// function transformProduct(product: Product): SimpleProduct {
+//   return {
+//     id: product.id,
+//     title: product.title,
+//     handle: product.handle,
+//     description: product.description,
+//     descriptionHtml: product.descriptionHtml || undefined, // Map descriptionHtml, use undefined if empty
+//     images: product.images.edges.map((edge) => edge.node),
+//     variants: product.variants.edges.map((edge) => edge.node),
+//     price: product.priceRange.minVariantPrice,
+//     compareAtPrice:
+//       product.compareAtPriceRange.minVariantPrice.amount !== "0.0"
+//         ? product.compareAtPriceRange.minVariantPrice
+//         : undefined,
+//     availableForSale: product.availableForSale,
+//     tags: product.tags,
+//     productType: product.productType,
+//     vendor: product.vendor,
+//     featuredImage: product.featuredImage,
+//   };
+// }
+
+// // UPDATED: Collections query (collections are always published if accessible via Storefront API)
+// const GET_COLLECTIONS_QUERY = `
+//   query getCollections {
+//     collections(first: 20) {
+//       edges {
+//         node {
+//           id
+//           title
+//           handle
+//           description
+//           image {
+//             id
+//             url
+//             altText
+//             width
+//             height
+//           }
+//           seo {
+//             title
+//             description
+//           }
+//           updatedAt
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// // UPDATED: Collection with products query - added published filter
+// const GET_COLLECTION_WITH_PRODUCTS_QUERY = `
+//   query getCollectionWithProducts($handle: String!) {
+//     collection(handle: $handle) {
+//       id
+//       title
+//       handle
+//       description
+//       descriptionHtml
+//       image {
+//         id
+//         url
+//         altText
+//         width
+//         height
+//       }
+//       products(first: 100, filters: {available: true}) {
+//         edges {
+//           node {
+//             id
+//             title
+//             handle
+//             description
+//             descriptionHtml
+//             availableForSale
+//             tags
+//             productType
+//             vendor
+//             createdAt
+//             updatedAt
+//             publishedAt
+//             featuredImage {
+//               id
+//               url
+//               altText
+//               width
+//               height
+//             }
+//             images(first: 10) {
+//               edges {
+//                 node {
+//                   id
+//                   url
+//                   altText
+//                   width
+//                   height
+//                 }
+//               }
+//             }
+//             variants(first: 100) {
+//               edges {
+//                 node {
+//                   id
+//                   title
+//                   availableForSale
+//                   quantityAvailable
+//                   price {
+//                     amount
+//                     currencyCode
+//                   }
+//                   compareAtPrice {
+//                     amount
+//                     currencyCode
+//                   }
+//                   selectedOptions {
+//                     name
+//                     value
+//                   }
+//                   image {
+//                     id
+//                     url
+//                     altText
+//                     width
+//                     height
+//                   }
+//                 }
+//               }
+//             }
+//             priceRange {
+//               minVariantPrice {
+//                 amount
+//                 currencyCode
+//               }
+//               maxVariantPrice {
+//                 amount
+//                 currencyCode
+//               }
+//             }
+//             compareAtPriceRange {
+//               minVariantPrice {
+//                 amount
+//                 currencyCode
+//               }
+//               maxVariantPrice {
+//                 amount
+//                 currencyCode
+//               }
+//             }
+//             options {
+//               id
+//               name
+//               values
+//             }
+//             seo {
+//               title
+//               description
+//             }
+//           }
+//         }
+//       }
+//       seo {
+//         title
+//         description
+//       }
+//       updatedAt
+//     }
+//   }
+// `;
+
+// // UPDATED: Get product by handle (individual products are automatically filtered by Storefront API)
+// const GET_PRODUCT_BY_HANDLE_QUERY = `
+//   query getProductByHandle($handle: String!) {
+//     product(handle: $handle) {
+//       id
+//       title
+//       handle
+//       description
+//       descriptionHtml
+//       availableForSale
+//       tags
+//       productType
+//       vendor
+//       createdAt
+//       updatedAt
+//       publishedAt
+//       featuredImage {
+//         id
+//         url
+//         altText
+//         width
+//         height
+//       }
+//       images(first: 20) {
+//         edges {
+//           node {
+//             id
+//             url
+//             altText
+//             width
+//             height
+//           }
+//         }
+//       }
+//       variants(first: 100) {
+//         edges {
+//           node {
+//             id
+//             title
+//             availableForSale
+//             quantityAvailable
+//             price {
+//               amount
+//               currencyCode
+//             }
+//             compareAtPrice {
+//               amount
+//               currencyCode
+//             }
+//             selectedOptions {
+//               name
+//               value
+//             }
+//             image {
+//               id
+//               url
+//               altText
+//               width
+//               height
+//             }
+//           }
+//         }
+//       }
+//       priceRange {
+//         minVariantPrice {
+//           amount
+//           currencyCode
+//         }
+//         maxVariantPrice {
+//           amount
+//           currencyCode
+//         }
+//       }
+//       compareAtPriceRange {
+//         minVariantPrice {
+//           amount
+//           currencyCode
+//         }
+//         maxVariantPrice {
+//           amount
+//           currencyCode
+//         }
+//       }
+//       options {
+//         id
+//         name
+//         values
+//       }
+//       seo {
+//         title
+//         description
+//       }
+//     }
+//   }
+// `;
+
+// // Collection info query (unchanged - collections are always published if accessible)
+// const GET_COLLECTION_INFO_QUERY = `
+//   query getCollectionInfo($handle: String!) {
+//     collection(handle: $handle) {
+//       id
+//       title
+//       handle
+//       description
+//       descriptionHtml
+//       image {
+//         id
+//         url
+//         altText
+//         width
+//         height
+//       }
+//       seo {
+//         title
+//         description
+//       }
+//       updatedAt
+//     }
+//   }
+// `;
+
+// // UPDATED: Best selling products with published filter
+// const GET_BEST_SELLING_PRODUCTS_QUERY = `
+//   query getBestSellingProducts($first: Int!) {
+//     products(first: $first, sortKey: BEST_SELLING, query: "published_status:published") {
+//       edges {
+//         node {
+//           id
+//           title
+//           handle
+//           description
+//           descriptionHtml
+//           availableForSale
+//           tags
+//           productType
+//           vendor
+//           featuredImage {
+//             id
+//             url
+//             altText
+//             width
+//             height
+//           }
+//           images(first: 10) {
+//             edges {
+//               node {
+//                 id
+//                 url
+//                 altText
+//                 width
+//                 height
+//               }
+//             }
+//           }
+//           variants(first: 100) {
+//             edges {
+//               node {
+//                 id
+//                 title
+//                 availableForSale
+//                 quantityAvailable
+//                 price {
+//                   amount
+//                   currencyCode
+//                 }
+//                 compareAtPrice {
+//                   amount
+//                   currencyCode
+//                 }
+//                 selectedOptions {
+//                   name
+//                   value
+//                 }
+//                 image {
+//                   id
+//                   url
+//                   altText
+//                   width
+//                   height
+//                 }
+//               }
+//             }
+//           }
+//           priceRange {
+//             minVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//             maxVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//           }
+//           compareAtPriceRange {
+//             minVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//             maxVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//           }
+//           options {
+//             id
+//             name
+//             values
+//           }
+//           seo {
+//             title
+//             description
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// // UPDATED: Latest products with published filter
+// const GET_LATEST_PRODUCTS_QUERY = `
+//   query getLatestProducts($first: Int!) {
+//     products(first: $first, sortKey: CREATED_AT, reverse: true, query: "published_status:published") {
+//       edges {
+//         node {
+//           id
+//           title
+//           handle
+//           description
+//           descriptionHtml
+//           availableForSale
+//           tags
+//           productType
+//           vendor
+//           featuredImage {
+//             id
+//             url
+//             altText
+//             width
+//             height
+//           }
+//           images(first: 10) {
+//             edges {
+//               node {
+//                 id
+//                 url
+//                 altText
+//                 width
+//                 height
+//               }
+//             }
+//           }
+//           variants(first: 100) {
+//             edges {
+//               node {
+//                 id
+//                 title
+//                 availableForSale
+//                 quantityAvailable
+//                 price {
+//                   amount
+//                   currencyCode
+//                 }
+//                 compareAtPrice {
+//                   amount
+//                   currencyCode
+//                 }
+//                 selectedOptions {
+//                   name
+//                   value
+//                 }
+//                 image {
+//                   id
+//                   url
+//                   altText
+//                   width
+//                   height
+//                 }
+//               }
+//             }
+//           }
+//           priceRange {
+//             minVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//             maxVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//           }
+//           compareAtPriceRange {
+//             minVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//             maxVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//           }
+//           options {
+//             id
+//             name
+//             values
+//           }
+//           seo {
+//             title
+//             description
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// // API FUNCTIONS (unchanged - the filtering happens in queries)
+
+// // GetCollections
+// export async function getCollections(): Promise<SimpleCollection[]> {
+//   try {
+//     const response = await shopifyFetch<ShopifyCollectionsResponse>({
+//       query: GET_COLLECTIONS_QUERY,
+//     });
+
+//     return response.collections.edges.map((edge) => ({
+//       id: edge.node.id,
+//       title: edge.node.title,
+//       handle: edge.node.handle,
+//       description: edge.node.description,
+//       image: edge.node.image,
+//       products: [],
+//     }));
+//   } catch (error) {
+//     console.error("Error fetching collections:", error);
+//     throw new Error("Failed to fetch collections");
+//   }
+// }
+
+// // Get Products By Collections
+// export async function getProductsByCollection(
+//   handle: string
+// ): Promise<SimpleProduct[]> {
+//   try {
+//     const response = await shopifyFetch<ShopifyCollectionResponse>({
+//       query: GET_COLLECTION_WITH_PRODUCTS_QUERY,
+//       variables: { handle },
+//     });
+
+//     if (!response.collection) {
+//       throw new Error(`Collection with handle "${handle}" not found`);
+//     }
+
+//     return response.collection.products.edges.map((edge) =>
+//       transformProduct(edge.node)
+//     );
+//   } catch (error) {
+//     console.error(`Error fetching products for collection "${handle}":`, error);
+//     throw new Error(`Failed to fetch products for collection "${handle}"`);
+//   }
+// }
+
+// // Get product by handle
+// export async function getProductByHandle(
+//   handle: string
+// ): Promise<SimpleProduct> {
+//   try {
+//     const response = await shopifyFetch<ShopifyProductResponse>({
+//       query: GET_PRODUCT_BY_HANDLE_QUERY,
+//       variables: { handle },
+//     });
+//     if (!response.product) {
+//       throw new Error(`Product with handle "${handle}" not found :/`);
+//     }
+
+//     return transformProduct(response.product);
+//   } catch (error) {
+//     console.error(`Error fetching product "${handle}":`, error);
+//     throw new Error(`Failed to fetch product "${handle}"`);
+//   }
+// }
+
+// // Get collection info
+// export async function getCollectionInfo(
+//   handle: string
+// ): Promise<Omit<SimpleCollection, "products">> {
+//   try {
+//     const response = await shopifyFetch<ShopifyCollectionResponse>({
+//       query: GET_COLLECTION_INFO_QUERY,
+//       variables: { handle },
+//     });
+
+//     if (!response.collection) {
+//       throw new Error(`Collection with handle "${handle}" not found`);
+//     }
+
+//     return {
+//       id: response.collection.id,
+//       title: response.collection.title,
+//       handle: response.collection.handle,
+//       description: response.collection.description,
+//       image: response.collection.image,
+//     };
+//   } catch (error) {
+//     console.error(`Error fetching collection info "${handle}":`, error);
+//     throw new Error(`Failed to fetch collection info "${handle}"`);
+//   }
+// }
+
+// // Get best selling products
+// export async function getBestSellingProducts(
+//   first: number = 20
+// ): Promise<SimpleProduct[]> {
+//   try {
+//     const response = await shopifyFetch<ShopifyProductsResponse>({
+//       query: GET_BEST_SELLING_PRODUCTS_QUERY,
+//       variables: { first },
+//     });
+
+//     return response.products.edges.map((edge) => transformProduct(edge.node));
+//   } catch (error) {
+//     console.error("Error fetching best-selling products:", error);
+//     throw new Error("Failed to fetch best-selling products");
+//   }
+// }
+
+// // Get Latest Products
+// export async function getLatestProducts(
+//   first: number = 4
+// ): Promise<SimpleProduct[]> {
+//   try {
+//     const response = await shopifyFetch<ShopifyProductsResponse>({
+//       query: GET_LATEST_PRODUCTS_QUERY,
+//       variables: { first },
+//     });
+
+//     return response.products.edges.map((edge) => transformProduct(edge.node));
+//   } catch (error) {
+//     console.error("Error fetching latest products:", error);
+//     throw new Error("Failed to fetch latest products");
+//   }
+// }
+
+// // GET LATEST PRODUCT - except the current
+
+// export async function getRandomProducts(
+//   excludeProductId: string,
+//   count: number = 8
+// ): Promise<SimpleProduct[]> {
+//   try {
+//     // Fetch more products than needed so we can randomize and exclude current
+//     const response = await shopifyFetch<ShopifyProductsResponse>({
+//       query: GET_BEST_SELLING_PRODUCTS_QUERY, // Reuse existing query
+//       variables: { first: 50 }, // Fetch 50 to have good variety
+//     });
+
+//     const allProducts = response.products.edges.map((edge) =>
+//       transformProduct(edge.node)
+//     );
+
+//     // Filter out current product
+//     const filteredProducts = allProducts.filter(
+//       (p) => p.id !== excludeProductId
+//     );
+
+//     // Shuffle array (Fisher-Yates algorithm)
+//     const shuffled = [...filteredProducts];
+//     for (let i = shuffled.length - 1; i > 0; i--) {
+//       const j = Math.floor(Math.random() * (i + 1));
+//       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+//     }
+
+//     // Return requested count
+//     return shuffled.slice(0, count);
+//   } catch (error) {
+//     console.error("Error fetching random products:", error);
+//     return [];
+//   }
+// }
+
+// // Search query and function
+// const SEARCH_PRODUCTS_QUERY = `
+//   query searchProducts($query: String!, $first: Int!) {
+//     products(first: $first, query: $query) {
+//       edges {
+//         node {
+//           id
+//           title
+//           handle
+//           description
+//           descriptionHtml
+//           availableForSale
+//           featuredImage {
+//             id
+//             url
+//             altText
+//             width
+//             height
+//           }
+//           priceRange {
+//             minVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//           }
+//           compareAtPriceRange {
+//             minVariantPrice {
+//               amount
+//               currencyCode
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// export async function searchProducts(query: string, first: number = 10): Promise<SimpleProduct[]> {
+//   try {
+//     const response = await shopifyFetch<ShopifyProductsResponse>({
+//       query: SEARCH_PRODUCTS_QUERY,
+//       variables: { query, first },
+//     });
+
+//     return response.products.edges.map((edge) => ({
+//       id: edge.node.id,
+//       title: edge.node.title,
+//       handle: edge.node.handle,
+//       description: edge.node.description,
+//       descriptionHtml: edge.node.descriptionHtml || undefined, // Add this line
+//       images: edge.node.featuredImage ? [edge.node.featuredImage] : [],
+//       variants: [],
+//       price: edge.node.priceRange.minVariantPrice,
+//       compareAtPrice: edge.node.compareAtPriceRange.minVariantPrice.amount !== "0.0"
+//         ? edge.node.compareAtPriceRange.minVariantPrice
+//         : undefined,
+//       availableForSale: edge.node.availableForSale,
+//       tags: [],
+//       productType: '',
+//       vendor: '',
+//       featuredImage: edge.node.featuredImage,
+//     }));
+//   } catch (error) {
+//     console.error("Error searching products:", error);
+//     throw new Error("Failed to search products");
+//   }
+// }
+
+// //! order cancel mutation
+// export const CANCEL_ORDER_MUTATION = `
+//   mutation CancelOrder($orderId: ID!, $reason: String) {
+//     orderCancel(id: $orderId, reason: $reason) {
+//       order {
+//         id
+//         canceledAt
+//         cancelReason
+//         financialStatus
+//         fulfillmentStatus
+//       }
+//       userErrors {
+//         field
+//         message
+//       }
+//     }
+//   }
+// `;
+
 import {
   Product,
-  // Collection,
   SimpleProduct,
   SimpleCollection,
   ShopifyProductResponse,
   ShopifyProductsResponse,
   ShopifyCollectionResponse,
   ShopifyCollectionsResponse,
-  // ProductVariables,
-  // CollectionVariables,
 } from "@/types/shopify";
 
 const endpoint = process.env.NEXT_PUBLIC_SHOPIFY_STORE_URL!;
 const storefrontAccessToken =
   process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
-// Main fetch function
 async function shopifyFetch<T>({
   query,
   variables = {},
@@ -45,15 +823,13 @@ async function shopifyFetch<T>({
   return data;
 }
 
-
-
 function transformProduct(product: Product): SimpleProduct {
   return {
     id: product.id,
     title: product.title,
     handle: product.handle,
     description: product.description,
-    descriptionHtml: product.descriptionHtml || undefined, // Map descriptionHtml, use undefined if empty
+    descriptionHtml: product.descriptionHtml || undefined,
     images: product.images.edges.map((edge) => edge.node),
     variants: product.variants.edges.map((edge) => edge.node),
     price: product.priceRange.minVariantPrice,
@@ -69,9 +845,6 @@ function transformProduct(product: Product): SimpleProduct {
   };
 }
 
-
-
-// UPDATED: Collections query (collections are always published if accessible via Storefront API)
 const GET_COLLECTIONS_QUERY = `
   query getCollections {
     collections(first: 20) {
@@ -99,9 +872,8 @@ const GET_COLLECTIONS_QUERY = `
   }
 `;
 
-// UPDATED: Collection with products query - added published filter
 const GET_COLLECTION_WITH_PRODUCTS_QUERY = `
-  query getCollectionWithProducts($handle: String!) {
+  query getCollectionWithProducts($handle: String!, $cursor: String) {
     collection(handle: $handle) {
       id
       title
@@ -115,7 +887,11 @@ const GET_COLLECTION_WITH_PRODUCTS_QUERY = `
         width
         height
       }
-      products(first: 100, filters: {available: true}) {
+      products(first: 100, after: $cursor, filters: {available: true}) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             id
@@ -218,7 +994,6 @@ const GET_COLLECTION_WITH_PRODUCTS_QUERY = `
   }
 `;
 
-// UPDATED: Get product by handle (individual products are automatically filtered by Storefront API)
 const GET_PRODUCT_BY_HANDLE_QUERY = `
   query getProductByHandle($handle: String!) {
     product(handle: $handle) {
@@ -314,7 +1089,6 @@ const GET_PRODUCT_BY_HANDLE_QUERY = `
   }
 `;
 
-// Collection info query (unchanged - collections are always published if accessible)
 const GET_COLLECTION_INFO_QUERY = `
   query getCollectionInfo($handle: String!) {
     collection(handle: $handle) {
@@ -339,7 +1113,6 @@ const GET_COLLECTION_INFO_QUERY = `
   }
 `;
 
-// UPDATED: Best selling products with published filter
 const GET_BEST_SELLING_PRODUCTS_QUERY = `
   query getBestSellingProducts($first: Int!) {
     products(first: $first, sortKey: BEST_SELLING, query: "published_status:published") {
@@ -436,7 +1209,6 @@ const GET_BEST_SELLING_PRODUCTS_QUERY = `
   }
 `;
 
-// UPDATED: Latest products with published filter
 const GET_LATEST_PRODUCTS_QUERY = `
   query getLatestProducts($first: Int!) {
     products(first: $first, sortKey: CREATED_AT, reverse: true, query: "published_status:published") {
@@ -533,9 +1305,6 @@ const GET_LATEST_PRODUCTS_QUERY = `
   }
 `;
 
-// API FUNCTIONS (unchanged - the filtering happens in queries)
-
-// GetCollections
 export async function getCollections(): Promise<SimpleCollection[]> {
   try {
     const response = await shopifyFetch<ShopifyCollectionsResponse>({
@@ -556,32 +1325,40 @@ export async function getCollections(): Promise<SimpleCollection[]> {
   }
 }
 
-// Get Products By Collections
 export async function getProductsByCollection(
-  handle: string
+  handle: string,
 ): Promise<SimpleProduct[]> {
   try {
-    const response = await shopifyFetch<ShopifyCollectionResponse>({
-      query: GET_COLLECTION_WITH_PRODUCTS_QUERY,
-      variables: { handle },
-    });
+    const allProducts: SimpleProduct[] = [];
+    let hasNextPage = true;
+    let cursor: string | null = null;
 
-    if (!response.collection) {
-      throw new Error(`Collection with handle "${handle}" not found`);
-    }
+   while (hasNextPage && allProducts.length < 500) {
+  const data = await shopifyFetch<ShopifyCollectionResponse>({
+    query: GET_COLLECTION_WITH_PRODUCTS_QUERY,
+    variables: { handle, cursor },
+  });
 
-    return response.collection.products.edges.map((edge) =>
-      transformProduct(edge.node)
-    );
+  if (!data.collection) {
+    throw new Error(`Collection with handle "${handle}" not found`);
+  }
+
+  const { edges, pageInfo } = data.collection.products;
+
+  allProducts.push(...edges.map((edge) => transformProduct(edge.node)));
+  hasNextPage = pageInfo.hasNextPage;
+  cursor = pageInfo.endCursor;
+}
+
+    return allProducts;
   } catch (error) {
     console.error(`Error fetching products for collection "${handle}":`, error);
     throw new Error(`Failed to fetch products for collection "${handle}"`);
   }
 }
 
-// Get product by handle
 export async function getProductByHandle(
-  handle: string
+  handle: string,
 ): Promise<SimpleProduct> {
   try {
     const response = await shopifyFetch<ShopifyProductResponse>({
@@ -599,9 +1376,8 @@ export async function getProductByHandle(
   }
 }
 
-// Get collection info
 export async function getCollectionInfo(
-  handle: string
+  handle: string,
 ): Promise<Omit<SimpleCollection, "products">> {
   try {
     const response = await shopifyFetch<ShopifyCollectionResponse>({
@@ -626,9 +1402,8 @@ export async function getCollectionInfo(
   }
 }
 
-// Get best selling products
 export async function getBestSellingProducts(
-  first: number = 20
+  first: number = 20,
 ): Promise<SimpleProduct[]> {
   try {
     const response = await shopifyFetch<ShopifyProductsResponse>({
@@ -643,9 +1418,8 @@ export async function getBestSellingProducts(
   }
 }
 
-// Get Latest Products
 export async function getLatestProducts(
-  first: number = 4
+  first: number = 4,
 ): Promise<SimpleProduct[]> {
   try {
     const response = await shopifyFetch<ShopifyProductsResponse>({
@@ -660,36 +1434,30 @@ export async function getLatestProducts(
   }
 }
 
-// GET LATEST PRODUCT - except the current
-
 export async function getRandomProducts(
   excludeProductId: string,
-  count: number = 8
+  count: number = 8,
 ): Promise<SimpleProduct[]> {
   try {
-    // Fetch more products than needed so we can randomize and exclude current
     const response = await shopifyFetch<ShopifyProductsResponse>({
-      query: GET_BEST_SELLING_PRODUCTS_QUERY, // Reuse existing query
-      variables: { first: 50 }, // Fetch 50 to have good variety
+      query: GET_BEST_SELLING_PRODUCTS_QUERY,
+      variables: { first: 50 },
     });
 
     const allProducts = response.products.edges.map((edge) =>
-      transformProduct(edge.node)
+      transformProduct(edge.node),
     );
 
-    // Filter out current product
     const filteredProducts = allProducts.filter(
-      (p) => p.id !== excludeProductId
+      (p) => p.id !== excludeProductId,
     );
 
-    // Shuffle array (Fisher-Yates algorithm)
     const shuffled = [...filteredProducts];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    // Return requested count
     return shuffled.slice(0, count);
   } catch (error) {
     console.error("Error fetching random products:", error);
@@ -697,7 +1465,6 @@ export async function getRandomProducts(
   }
 }
 
-// Search query and function 
 const SEARCH_PRODUCTS_QUERY = `
   query searchProducts($query: String!, $first: Int!) {
     products(first: $first, query: $query) {
@@ -734,8 +1501,10 @@ const SEARCH_PRODUCTS_QUERY = `
   }
 `;
 
-
-export async function searchProducts(query: string, first: number = 10): Promise<SimpleProduct[]> {
+export async function searchProducts(
+  query: string,
+  first: number = 10,
+): Promise<SimpleProduct[]> {
   try {
     const response = await shopifyFetch<ShopifyProductsResponse>({
       query: SEARCH_PRODUCTS_QUERY,
@@ -747,17 +1516,18 @@ export async function searchProducts(query: string, first: number = 10): Promise
       title: edge.node.title,
       handle: edge.node.handle,
       description: edge.node.description,
-      descriptionHtml: edge.node.descriptionHtml || undefined, // Add this line
+      descriptionHtml: edge.node.descriptionHtml || undefined,
       images: edge.node.featuredImage ? [edge.node.featuredImage] : [],
       variants: [],
       price: edge.node.priceRange.minVariantPrice,
-      compareAtPrice: edge.node.compareAtPriceRange.minVariantPrice.amount !== "0.0" 
-        ? edge.node.compareAtPriceRange.minVariantPrice 
-        : undefined,
+      compareAtPrice:
+        edge.node.compareAtPriceRange.minVariantPrice.amount !== "0.0"
+          ? edge.node.compareAtPriceRange.minVariantPrice
+          : undefined,
       availableForSale: edge.node.availableForSale,
       tags: [],
-      productType: '',
-      vendor: '',
+      productType: "",
+      vendor: "",
       featuredImage: edge.node.featuredImage,
     }));
   } catch (error) {
@@ -766,8 +1536,6 @@ export async function searchProducts(query: string, first: number = 10): Promise
   }
 }
 
-
-//! order cancel mutation 
 export const CANCEL_ORDER_MUTATION = `
   mutation CancelOrder($orderId: ID!, $reason: String) {
     orderCancel(id: $orderId, reason: $reason) {
