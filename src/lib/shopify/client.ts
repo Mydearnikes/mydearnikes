@@ -1325,30 +1325,62 @@ export async function getCollections(): Promise<SimpleCollection[]> {
   }
 }
 
+// export async function getProductsByCollection(
+//   handle: string,
+// ): Promise<SimpleProduct[]> {
+//   try {
+//     const allProducts: SimpleProduct[] = [];
+//     let hasNextPage = true;
+//     let cursor: string | null = null;
+
+//    while (hasNextPage && allProducts.length < 500) {
+//   const data = await shopifyFetch<ShopifyCollectionResponse>({
+//     query: GET_COLLECTION_WITH_PRODUCTS_QUERY,
+//     variables: { handle, cursor },
+//   });
+
+//   if (!data.collection) {
+//     throw new Error(`Collection with handle "${handle}" not found`);
+//   }
+
+//   const { edges, pageInfo } = data.collection.products;
+
+//   allProducts.push(...edges.map((edge) => transformProduct(edge.node)));
+//   hasNextPage = pageInfo.hasNextPage;
+//   cursor = pageInfo.endCursor;
+// }
+
+//     return allProducts;
+//   } catch (error) {
+//     console.error(`Error fetching products for collection "${handle}":`, error);
+//     throw new Error(`Failed to fetch products for collection "${handle}"`);
+//   }
+// }
+
 export async function getProductsByCollection(
-  handle: string,
+  handle: string
 ): Promise<SimpleProduct[]> {
   try {
     const allProducts: SimpleProduct[] = [];
     let hasNextPage = true;
     let cursor: string | null = null;
 
-   while (hasNextPage && allProducts.length < 500) {
-  const data = await shopifyFetch<ShopifyCollectionResponse>({
-    query: GET_COLLECTION_WITH_PRODUCTS_QUERY,
-    variables: { handle, cursor },
-  });
+    while (hasNextPage && allProducts.length < 500) {
+      const data: ShopifyCollectionResponse = await shopifyFetch<ShopifyCollectionResponse>({
+        query: GET_COLLECTION_WITH_PRODUCTS_QUERY,
+        variables: { handle, cursor },
+      });
 
-  if (!data.collection) {
-    throw new Error(`Collection with handle "${handle}" not found`);
-  }
+      if (!data.collection) {
+        throw new Error(`Collection with handle "${handle}" not found`);
+      }
 
-  const { edges, pageInfo } = data.collection.products;
+      const { edges, pageInfo } = data.collection.products;
 
-  allProducts.push(...edges.map((edge) => transformProduct(edge.node)));
-  hasNextPage = pageInfo.hasNextPage;
-  cursor = pageInfo.endCursor;
-}
+      allProducts.push(...edges.map((edge) => transformProduct(edge.node)));
+      hasNextPage = pageInfo.hasNextPage;
+      cursor = pageInfo.endCursor;
+    }
 
     return allProducts;
   } catch (error) {
