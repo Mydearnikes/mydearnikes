@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import { notFound } from "next/navigation";
 import { getProductByHandle, getRandomProducts } from "@/lib/shopify/client";
@@ -15,11 +12,11 @@ import BuyNow from "@/components/ProductPage/BuyNow";
 import ProductCarousel from "@/components/ProductPage/ProductCarousel";
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { 
-  addRecentlyViewed, 
-  getRecentlyViewedExcluding, 
+import {
+  addRecentlyViewed,
+  getRecentlyViewedExcluding,
   RecentProduct,
-  convertRecentToSimpleProduct 
+  convertRecentToSimpleProduct,
 } from "@/lib/shopify/recentlyViewed";
 import RecentlyViewedCarousel from "@/components/ProductPage/RecentlyViewedCarousel";
 import PaymentMethods from "@/components/ProductPage/PaymentMethods";
@@ -39,7 +36,7 @@ const ProductPageSkeleton = () => {
       <div className="block lg:hidden pt-16">
         {/* Image Skeleton */}
         <div className="w-full aspect-square bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 bg-[length:200%_100%] animate-pulse"></div>
-        
+
         {/* Content Skeleton */}
         <div className="p-4 space-y-6">
           {/* Title & Price */}
@@ -53,7 +50,10 @@ const ProductPageSkeleton = () => {
             <div className="h-5 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-1/3 bg-[length:200%_100%]"></div>
             <div className="flex gap-2 overflow-x-auto pb-2">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-10 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-16 flex-shrink-0 bg-[length:200%_100%]"></div>
+                <div
+                  key={i}
+                  className="h-10 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-16 flex-shrink-0 bg-[length:200%_100%]"
+                ></div>
               ))}
             </div>
           </div>
@@ -63,7 +63,10 @@ const ProductPageSkeleton = () => {
             <div className="h-5 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-1/3 bg-[length:200%_100%]"></div>
             <div className="flex gap-2 overflow-x-auto pb-2">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-10 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded-full w-10 flex-shrink-0 bg-[length:200%_100%]"></div>
+                <div
+                  key={i}
+                  className="h-10 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded-full w-10 flex-shrink-0 bg-[length:200%_100%]"
+                ></div>
               ))}
             </div>
           </div>
@@ -119,7 +122,10 @@ const ProductPageSkeleton = () => {
               <div className="h-5 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-1/4 bg-[length:200%_100%]"></div>
               <div className="flex gap-3">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-12 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-16 bg-[length:200%_100%]"></div>
+                  <div
+                    key={i}
+                    className="h-12 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-16 bg-[length:200%_100%]"
+                  ></div>
                 ))}
               </div>
             </div>
@@ -129,7 +135,10 @@ const ProductPageSkeleton = () => {
               <div className="h-5 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded w-1/4 bg-[length:200%_100%]"></div>
               <div className="flex gap-3">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-12 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded-full w-12 bg-[length:200%_100%]"></div>
+                  <div
+                    key={i}
+                    className="h-12 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded-full w-12 bg-[length:200%_100%]"
+                  ></div>
                 ))}
               </div>
             </div>
@@ -171,30 +180,37 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+    null,
+  );
   const [quantity, setQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<SimpleProduct[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<SimpleProduct[]>([]);
 
   // Memoized function to find matching variant
-  const findMatchingVariant = useCallback((product: SimpleProduct, size: string, color: string) => {
-    if (!product.variants) return null;
+  const findMatchingVariant = useCallback(
+    (product: SimpleProduct, size: string, color: string) => {
+      if (!product.variants) return null;
 
-    return product.variants.find((variant) => {
-      const variantSize = variant.selectedOptions?.find((opt) =>
-        opt.name.toLowerCase().includes("size")
-      )?.value;
+      return (
+        product.variants.find((variant) => {
+          const variantSize = variant.selectedOptions?.find((opt) =>
+            opt.name.toLowerCase().includes("size"),
+          )?.value;
 
-      const variantColor = variant.selectedOptions?.find((opt) =>
-        opt.name.toLowerCase().includes("color")
-      )?.value;
+          const variantColor = variant.selectedOptions?.find((opt) =>
+            opt.name.toLowerCase().includes("color"),
+          )?.value;
 
-      const sizeMatches = !size || variantSize === size;
-      const colorMatches = !color || variantColor === color;
+          const sizeMatches = !size || variantSize === size;
+          const colorMatches = !color || variantColor === color;
 
-      return sizeMatches && colorMatches;
-    }) || null;
-  }, []);
+          return sizeMatches && colorMatches;
+        }) || null
+      );
+    },
+    [],
+  );
 
   // Fetch product
   useEffect(() => {
@@ -202,7 +218,7 @@ export default function ProductPage({ params }: ProductPageProps) {
       try {
         const resolvedParams = await params;
         const productData = await getProductByHandle(resolvedParams.handle);
-        
+
         if (!productData) {
           notFound();
           return;
@@ -216,7 +232,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         setLoading(false);
       }
     };
-    
+
     fetchProduct();
   }, [params]);
 
@@ -224,22 +240,24 @@ export default function ProductPage({ params }: ProductPageProps) {
   useEffect(() => {
     if (product) {
       setQuantity(1);
-      
+
       // Auto-select first available variant
       if (product.variants && product.variants.length > 0) {
-        const variant = product.variants.find(v => v.availableForSale) || product.variants[0];
+        const variant =
+          product.variants.find((v) => v.availableForSale) ||
+          product.variants[0];
         setSelectedVariant(variant);
 
         const sizeOption = variant.selectedOptions?.find((opt) =>
-          opt.name.toLowerCase().includes("size")
+          opt.name.toLowerCase().includes("size"),
         );
         const colorOption = variant.selectedOptions?.find((opt) =>
-          opt.name.toLowerCase().includes("color")
+          opt.name.toLowerCase().includes("color"),
         );
 
         setSelectedSize(sizeOption?.value || "");
         setSelectedColor(colorOption?.value || "");
-        
+
         // Track product view with the selected variant
         trackProductView(product, variant);
       }
@@ -249,7 +267,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   // Track recently viewed and fetch related products
   useEffect(() => {
     if (!product) return;
-    
+
     // Add to recently viewed
     const recentProduct: RecentProduct = {
       id: product.id,
@@ -257,17 +275,18 @@ export default function ProductPage({ params }: ProductPageProps) {
       title: product.title,
       price: product.price,
       featuredImage: product.featuredImage,
-      viewedAt: Date.now()
+      viewedAt: Date.now(),
     };
-    
+
     addRecentlyViewed(recentProduct);
-    
+
     // Get recently viewed (excluding current) and convert to SimpleProduct
-    const recent = getRecentlyViewedExcluding(product.id)
-      .map(convertRecentToSimpleProduct);
-    
+    const recent = getRecentlyViewedExcluding(product.id).map(
+      convertRecentToSimpleProduct,
+    );
+
     setRecentlyViewed(recent);
-    
+
     // Fetch random products for "You May Also Like"
     const fetchRandomProducts = async () => {
       try {
@@ -277,15 +296,19 @@ export default function ProductPage({ params }: ProductPageProps) {
         console.error("Error fetching random products:", error);
       }
     };
-    
+
     fetchRandomProducts();
   }, [product]);
 
   // Find matching variants when size/color changes
   useEffect(() => {
     if (!product) return;
-    
-    const matchingVariant = findMatchingVariant(product, selectedSize, selectedColor);
+
+    const matchingVariant = findMatchingVariant(
+      product,
+      selectedSize,
+      selectedColor,
+    );
     setSelectedVariant(matchingVariant);
   }, [selectedSize, selectedColor, product, findMatchingVariant]);
 
@@ -298,10 +321,10 @@ export default function ProductPage({ params }: ProductPageProps) {
   }
 
   return (
-    <div className="max-w-[100vw] overflow-x-hidden">
+    <div className="max-w-[100vw] overflow-x-hidden mt-10">
       <div className="pt-15 flex flex-col lg:flex-row justify-between lg:justify-center lg:items-start gap-8">
         {/* Image Carousel - Animated */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
@@ -309,11 +332,11 @@ export default function ProductPage({ params }: ProductPageProps) {
         >
           {/* <ImageCarousel product={product} />
            */}
-           <ImageCarousel product={product} selectedColor={selectedColor} />
+          <ImageCarousel product={product} selectedColor={selectedColor} />
         </motion.div>
 
         {/* Product Info - Animated */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -325,9 +348,12 @@ export default function ProductPage({ params }: ProductPageProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <ProductInfo product={product} selectedVariant={selectedVariant} />
+              <ProductInfo
+                product={product}
+                selectedVariant={selectedVariant}
+              />
             </motion.div>
-            
+
             {/* Mobile selectors and actions */}
             <div>
               <motion.div
@@ -342,7 +368,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   showStockInfo={true}
                 />
               </motion.div>
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -354,7 +380,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   onColorChange={setSelectedColor}
                 />
               </motion.div>
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -367,7 +393,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   setQuantity={setQuantity}
                 />
               </motion.div>
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -380,7 +406,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 />
               </motion.div>
             </div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -388,7 +414,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             >
               <PaymentMethods />
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -428,16 +454,16 @@ export default function ProductPage({ params }: ProductPageProps) {
       {/* Product carousels */}
       <div className="mb-4">
         {relatedProducts.length > 0 && (
-          <ProductCarousel 
-            products={relatedProducts} 
-            title="You May Also Like" 
+          <ProductCarousel
+            products={relatedProducts}
+            title="You May Also Like"
           />
         )}
-        
+
         {recentlyViewed.length > 0 && (
-          <RecentlyViewedCarousel 
-            products={recentlyViewed} 
-            title="Recently Viewed" 
+          <RecentlyViewedCarousel
+            products={recentlyViewed}
+            title="Recently Viewed"
             minItems={2}
           />
         )}
