@@ -322,13 +322,13 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="max-w-[100vw] overflow-x-hidden mt-10">
-      <div className="pt-15 flex flex-col lg:flex-row justify-between lg:justify-center lg:items-start gap-8">
+      <div className="pt-15 flex flex-col lg:flex-row justify-between lg:justify-center lg:items-start gap-8 ">
         {/* Image Carousel - Animated */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="w-full lg:w-[50%] h-[50vh] md:h-[110vh] lg:h-[93vh]"
+          className="w-full lg:w-[50%] h-[58vh] md:h-[110vh] lg:h-[93vh]"
         >
           {/* <ImageCarousel product={product} />
            */}

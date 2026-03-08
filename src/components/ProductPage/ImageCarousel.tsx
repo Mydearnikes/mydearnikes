@@ -36,7 +36,10 @@ const CustomBullet = ({
   );
 };
 
-export default function ImageCarousel({ product, selectedColor }: ImageCarouselProps) {
+export default function ImageCarousel({
+  product,
+  selectedColor,
+}: ImageCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [displayImages, setDisplayImages] = useState<any[]>([]);
 
@@ -64,7 +67,7 @@ export default function ImageCarousel({ product, selectedColor }: ImageCarouselP
         const colorOption = variant.selectedOptions?.find(
           (option) =>
             option.name.toLowerCase().includes("color") ||
-            option.name.toLowerCase().includes("colour")
+            option.name.toLowerCase().includes("colour"),
         );
         return colorOption?.value === selectedColor;
       });
@@ -72,7 +75,7 @@ export default function ImageCarousel({ product, selectedColor }: ImageCarouselP
       if (matchingVariant?.image) {
         const variantImage = matchingVariant.image;
         const otherImages = product.images.filter(
-          (img) => img.url !== variantImage.url
+          (img) => img.url !== variantImage.url,
         );
         return [variantImage, ...otherImages];
       }
@@ -97,7 +100,7 @@ export default function ImageCarousel({ product, selectedColor }: ImageCarouselP
         modules={[Autoplay]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-        className="h-[50vh] w-full md:h-[110vh] lg:h-[93vh] rounded-none"
+        className="h-[58vh] w-full md:h-[110vh] lg:h-[93vh] rounded-none"
         key={selectedColor}
       >
         {displayImages.map((item, key) => (
